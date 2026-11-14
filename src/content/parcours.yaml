@@ -1,0 +1,55 @@
+# Le Parcours de Faker. Une étape par entrée, dans l'ordre chronologique.
+# Champs : id (unique), annee (2013 ou plus), titre, texte. Aucun ne peut être vide.
+- id: debuts
+  annee: 2013
+  titre: Des débuts hors norme
+  texte: >-
+    Lee Sang-hyeok, dit Faker, est né le 7 mai 1996 à Séoul. En 2013, il rejoint SK Telecom T1 K,
+    l'équipe qui deviendra T1, comme mid laner. Dès sa première saison, il est champion de Corée,
+    et son duel contre Ryu, Zed contre Zed, fait le tour du monde. À la fin de l'année, SKT gagne
+    les Worlds.
+- id: sommet
+  annee: 2015
+  titre: Les Worlds, encore et encore
+  texte: >-
+    Après une année 2014 sans qualification aux Worlds, SKT revient en 2015 et gagne. Elle
+    recommence en 2016. Faker devient le premier joueur triple champion du monde. Il ajoute le
+    Mid-Season Invitational (MSI) en 2016 et en 2017.
+- id: epreuves
+  annee: 2017
+  titre: La défaite, puis les années difficiles
+  texte: >-
+    En finale des Worlds 2017, SKT s'incline face à Samsung Galaxy, et les images de Faker en
+    larmes marquent les fans. Suivent des années plus dures : l'équipe n'est pas qualifiée aux
+    Worlds 2018, puis devient T1 en 2019. Faker gagne encore la LCK au printemps et à l'été 2019,
+    puis au printemps 2020. Il reste fidèle à une seule équipe, malgré des offres plus lucratives.
+- id: invaincu
+  annee: 2022
+  titre: Invaincu en LCK
+  texte: >-
+    Au printemps 2022, T1 termine la saison régulière de la LCK sans une défaite, sur un score de
+    18-0. Elle échoue pourtant en finale des Worlds 2022, battue par DRX.
+- id: retour
+  annee: 2023
+  titre: Le retour au sommet
+  texte: >-
+    Faker se blesse au bras au printemps et à l'été 2023, puis revient. Avec l'équipe de Corée, il
+    gagne l'or aux Jeux asiatiques de Hangzhou, où l'e-sport est pour la première fois une
+    discipline à médailles. À Séoul, T1 bat ensuite Weibo Gaming 3-0 en finale des Worlds : son
+    quatrième titre.
+- id: records
+  annee: 2024
+  titre: Cinq, puis six Worlds
+  texte: >-
+    En 2024, T1 s'impose à Londres face à Bilibili Gaming, 3-2, pour un cinquième titre mondial
+    de Faker. Riot Games en fait le premier joueur intronisé au Hall of Legends. En 2025, à
+    Chengdu, T1 bat KT Rolster 3-2 : c'est le sixième titre de Faker, le troisième d'affilée pour
+    l'équipe.
+- id: aujourdhui
+  annee: 2026
+  titre: Toujours là
+  texte: >-
+    En 2026, Faker est toujours chez T1, dont le contrat court jusqu'en 2029. L'année ne finit
+    pas en titre : Hanwha Life Esports gagne le MSI, et T1 s'arrête en demi-finale des Worlds,
+    battue 3-1 par Bilibili Gaming. Son palmarès compte alors six Worlds, deux MSI, dix titres
+    en LCK et une médaille d'or aux Jeux asiatiques.

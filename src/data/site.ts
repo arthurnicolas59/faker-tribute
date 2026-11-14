@@ -10,6 +10,9 @@ export interface TextesDuSite {
     surnom: string;
     accroche: string;
   };
+  parcours: {
+    titre: string;
+  };
   mentionSiteDeFan: string;
 }
 
@@ -22,6 +25,9 @@ export const textesDuSite: TextesDuSite = {
     surnom: "The Unkillable Demon King",
     accroche:
       "Le plus grand joueur de l'histoire de League of Legends, au sommet depuis plus de dix ans.",
+  },
+  parcours: {
+    titre: "Le Parcours",
   },
   mentionSiteDeFan:
     "Site de fan non officiel. Il n'a aucun lien avec Riot Games ni avec T1, et n'est ni approuvé ni soutenu par eux.",
