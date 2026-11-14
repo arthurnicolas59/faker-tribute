@@ -1,5 +1,5 @@
 /**
- * Les textes fixes de la page : onglet, En-tête et Mention site de fan.
+ * Les textes fixes de la page : onglet, En-tête, titre du Parcours et Mention site de fan.
  * Le type sert de schéma : `astro check` refuse un texte manquant.
  */
 export interface TextesDuSite {

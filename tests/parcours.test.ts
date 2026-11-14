@@ -19,7 +19,7 @@ describe("la Section Parcours", () => {
     expect(parcours?.getAttribute("aria-labelledby")).toBe(titre?.id);
   });
 
-  it("raconte de 2013 à l'année la plus récente, en français, en étapes ordonnées", async () => {
+  it("raconte de 2013 à l'année la plus récente, en étapes ordonnées", async () => {
     const page = await renderPage();
     const parcours = page.querySelector("main > section");
 

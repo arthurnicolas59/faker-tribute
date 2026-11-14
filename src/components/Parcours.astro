@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { textesDuSite } from "../data/site";
 
+// Les étapes sont rangées par année, quel que soit leur ordre dans le fichier.
 const etapes = (await getCollection("parcours")).sort((a, b) => a.data.annee - b.data.annee);
 ---
 
@@ -26,7 +27,7 @@ const etapes = (await getCollection("parcours")).sort((a, b) => a.data.annee - b
 
 <style>
   .parcours {
-    max-width: calc(40rem + 2 * var(--marge-laterale));
+    max-width: calc(var(--largeur-texte) + 2 * var(--marge-laterale));
     margin: 0 auto;
     padding: 4rem var(--marge-laterale);
   }
@@ -35,7 +36,7 @@ const etapes = (await getCollection("parcours")).sort((a, b) => a.data.annee - b
     margin: 0 0 2.5rem;
     padding-bottom: 0.75rem;
     color: var(--couleur-or);
-    font-size: clamp(2rem, 8vw, 3.25rem);
+    font-size: var(--taille-titre-section);
     border-bottom: 2px solid var(--couleur-rouge);
   }
 
@@ -56,7 +57,7 @@ const etapes = (await getCollection("parcours")).sort((a, b) => a.data.annee - b
     align-items: baseline;
     gap: 0.25rem 0.75rem;
     margin: 0 0 0.5rem;
-    font-size: clamp(1.25rem, 5vw, 1.625rem);
+    font-size: var(--taille-titre-etape);
   }
 
   .annee {
