@@ -2,7 +2,7 @@ import type { CategoriePalmares, Saison } from "./palmares-schema";
 
 /**
  * Les textes fixes de la page : onglet, En-tête, titres des Sections, libellés du Palmarès
- * et Mention site de fan.
+ * et des Moments mythiques, et Mention site de fan.
  * Le type sert de schéma : `astro check` refuse un texte manquant.
  */
 export interface TextesDuSite {
@@ -24,6 +24,13 @@ export interface TextesDuSite {
       { nom: string; unite: { singulier: string; pluriel: string } }
     >;
     saisons: Record<Saison, string>;
+  };
+  momentsMythiques: {
+    titre: string;
+    /** Le début de la ligne qui nomme la chaîne officielle sous chaque vidéo. */
+    sourceVideo: string;
+    /** Le début du `title` de chaque Vidéo intégrée, lu par les lecteurs d'écran. */
+    titreVideo: string;
   };
   mentionSiteDeFan: string;
 }
@@ -57,6 +64,11 @@ export const textesDuSite: TextesDuSite = {
       printemps: "Printemps",
       ete: "Été",
     },
+  },
+  momentsMythiques: {
+    titre: "Les Moments mythiques",
+    sourceVideo: "Vidéo :",
+    titreVideo: "Vidéo du Moment mythique",
   },
   mentionSiteDeFan:
     "Site de fan non officiel. Il n'a aucun lien avec Riot Games ni avec T1, et n'est ni approuvé ni soutenu par eux.",

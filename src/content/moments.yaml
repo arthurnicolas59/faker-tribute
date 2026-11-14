@@ -1,0 +1,56 @@
+# Les Moments mythiques de Faker : exactement 5. Un Moment par entrée : son nom court (unique),
+# puis titre, date (AAAA-MM-JJ), texte et video. La vidéo est donnée par son identifiant YouTube
+# (les 11 caractères après « watch?v= ») et par la chaîne officielle qui la publie : LoL Esports,
+# LCK ou T1. Avant d'ajouter une vidéo, vérifier qu'elle existe, qu'elle vient de cette chaîne et
+# qu'elle accepte l'intégration. La page range les Moments par date.
+zed-contre-zed:
+  titre: Le duel Zed contre Zed
+  date: 2013-08-31
+  texte: >-
+    Finale des Champions d'été 2013 : SK Telecom T1 K et KT Bullets se départagent dans une
+    cinquième manche. Les deux mid laners jouent Zed. Presque à court de vie, Faker déjoue chaque
+    attaque de Ryu en plein duel et finit par l'éliminer. SKT gagne le titre, et l'action fait le
+    tour du monde.
+  video:
+    id: YFCpCajop9k
+    chaine: LoL Esports
+troisieme-couronne:
+  titre: Une troisième couronne à Los Angeles
+  date: 2016-10-29
+  texte: >-
+    En finale des Worlds 2016, SK Telecom T1 affronte une autre équipe coréenne, Samsung Galaxy.
+    La série va jusqu'à la cinquième manche, et SKT l'emporte 3-2. Faker, élu meilleur joueur du
+    tournoi, gagne ses troisièmes Worlds.
+  video:
+    id: EpAzBdEpQBo
+    chaine: LoL Esports
+sacre-a-seoul:
+  titre: Le sacre à domicile
+  date: 2023-11-19
+  texte: >-
+    Sept ans après son dernier titre mondial, et quelques mois après une blessure au bras, Faker
+    joue la finale des Worlds 2023 à Séoul, devant le public coréen. T1 domine Weibo Gaming 3-0 :
+    ce sont ses quatrièmes Worlds.
+  video:
+    id: g3NcF5Uv-w4
+    chaine: LoL Esports
+galio-a-londres:
+  titre: Le Galio de Faker à Londres
+  date: 2024-11-02
+  texte: >-
+    En finale des Worlds 2024, Bilibili Gaming mène deux fois, et T1 égalise deux fois. Dans la
+    cinquième manche, Faker joue Galio : ses sorts ultimes tombent au bon moment pour protéger ses
+    coéquipiers. T1 gagne 3-2, et Faker est élu meilleur joueur de la finale.
+  video:
+    id: rZHrffKAc6k
+    chaine: LoL Esports
+six-worlds:
+  titre: Six Worlds, dont trois d'affilée
+  date: 2025-11-09
+  texte: >-
+    À Chengdu, T1 retrouve KT Rolster en finale des Worlds 2025. Menée 2-1, elle gagne les deux
+    dernières manches et l'emporte 3-2. Faker remporte ses sixièmes Worlds, douze ans après les
+    premiers, et T1 devient la première équipe sacrée trois années de suite.
+  video:
+    id: 3d7CbPj5HTw
+    chaine: LoL Esports
