@@ -4,7 +4,9 @@
 
 ## Le projet
 
-À DÉCIDER AVEC /project-launch : ce que fait le projet, pour qui, et sa stack en une ou deux phrases.
+Un site de fan d'une seule page, en français et public, qui rend hommage à Faker, joueur de League of Legends. Il s'adresse aux fans francophones et contient un En-tête, le Parcours, le Palmarès et 5 Moments mythiques avec leurs vidéos YouTube intégrées. Le vocabulaire est défini dans `GLOSSARY.md`.
+
+Stack : Astro (site statique) et TypeScript, testé avec Vitest, hébergé sur Netlify (voir `docs/adr/0001-astro-et-netlify.md`). Pas de serveur ni de base de données.
 
 ## L'utilisateur
 
@@ -47,7 +49,11 @@ Après le brief, l'utilisateur merge ou demande un changement : `/build-ticket <
 - Ne merge pas sans demande explicite.
 - Les textes destinés à des humains (commits, PR, docs) sont courts, précis et sans formules creuses.
 
-À DÉCIDER AVEC /project-launch : les conventions propres au projet.
+- Les textes du site (Parcours, Palmarès, Moments mythiques) vivent dans des fichiers de données ou de contenu séparés du code des composants, et sont validés par un schéma.
+- Aucune photo ni image copiée de Faker, de T1 ou de Riot Games. Les vidéos sont des Vidéos intégrées YouTube venant de chaînes officielles (LoL Esports, LCK, T1).
+- La Mention site de fan est toujours présente en bas de page.
+- Le site s'affiche correctement sur téléphone (dès 360 px de large) et sur ordinateur. Les animations restent légères et respectent le réglage « réduire les animations » du système.
+- Node 22, npm. Les commandes `lint`, `typecheck`, `test` et `build` de `package.json` sont celles que lance `scripts/checks.sh`.
 
 ## Agent skills
 
