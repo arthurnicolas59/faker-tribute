@@ -5,3 +5,19 @@ import { textesDuSite } from "../data/site";
 <footer class="pied-de-page">
   <p>{textesDuSite.mentionSiteDeFan}</p>
 </footer>
+
+<style>
+  .pied-de-page {
+    padding: 2rem var(--marge-laterale);
+    border-top: 1px solid var(--couleur-rouge-sombre);
+    background: var(--couleur-noir);
+    color: var(--couleur-texte-doux);
+    font-size: var(--taille-petit);
+    text-align: center;
+  }
+
+  .pied-de-page p {
+    max-width: var(--largeur-contenu);
+    margin: 0 auto;
+  }
+</style>

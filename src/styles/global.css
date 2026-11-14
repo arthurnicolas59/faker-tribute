@@ -1,0 +1,80 @@
+/*
+ * Le style commun de la page. Les couleurs et la typographie sont définies ici, une seule fois :
+ * les Sections les réutilisent avec var(--…), sans recopier de valeur.
+ */
+:root {
+  /* Couleurs : sombre, rouge, noir et or, comme une affiche de finale. */
+  --couleur-noir: #09090b;
+  --couleur-noir-doux: #151012;
+  --couleur-rouge: #c8102e;
+  --couleur-rouge-sombre: #5c0b17;
+  --couleur-or: #d4af37;
+  --couleur-texte: #f4efe6;
+  --couleur-texte-doux: #b8ad9c;
+
+  /* Typographie : polices du système, rien à télécharger. */
+  --police-titre: "Avenir Next Condensed", "Helvetica Neue Condensed", "Roboto Condensed",
+    "Arial Narrow", "Liberation Sans Narrow", Impact, system-ui, sans-serif;
+  --police-texte: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --graisse-titre: 800;
+  --interlettrage-titre: 0.04em;
+  --interlettrage-surtitre: 0.22em;
+
+  /* Tailles fluides : lisibles dès 360 px, sans débordement. */
+  --taille-geant: clamp(4.5rem, 24vw, 15rem);
+  --taille-surtitre: clamp(0.75rem, 3.2vw, 1.125rem);
+  --taille-texte: clamp(1rem, 2.6vw, 1.125rem);
+  --taille-petit: 0.875rem;
+
+  /* Mise en page. */
+  --largeur-contenu: 60rem;
+  --marge-laterale: clamp(1rem, 5vw, 3rem);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--couleur-noir);
+  color: var(--couleur-texte);
+  font-family: var(--police-texte);
+  font-size: var(--taille-texte);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+main {
+  flex: 1;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--police-titre);
+  font-weight: var(--graisse-titre);
+  letter-spacing: var(--interlettrage-titre);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Réglage « réduire les animations » du système : aucune animation ni défilement animé. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

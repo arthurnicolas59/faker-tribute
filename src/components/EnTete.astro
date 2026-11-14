@@ -9,3 +9,81 @@ const { nom, surnom, accroche } = textesDuSite.enTete;
   <h1 class="nom">{nom}</h1>
   <p class="accroche">{accroche}</p>
 </header>
+
+<style>
+  .en-tete {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 4rem var(--marge-laterale);
+    text-align: center;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 45%, var(--couleur-rouge-sombre), transparent 70%),
+      linear-gradient(180deg, var(--couleur-noir) 0%, var(--couleur-noir-doux) 100%);
+    border-bottom: 1px solid var(--couleur-or);
+  }
+
+  /* Deux filets dorés, comme le cadre d'une affiche. */
+  .en-tete::before,
+  .en-tete::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: min(18rem, 60%);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--couleur-or), transparent);
+    transform: translateX(-50%);
+  }
+
+  .en-tete::before {
+    top: 2.5rem;
+  }
+
+  .en-tete::after {
+    bottom: 2.5rem;
+  }
+
+  .surnom {
+    margin: 0;
+    color: var(--couleur-or);
+    font-family: var(--police-titre);
+    font-size: var(--taille-surtitre);
+    font-weight: var(--graisse-titre);
+    letter-spacing: var(--interlettrage-surtitre);
+    text-transform: uppercase;
+  }
+
+  .nom {
+    margin: 0;
+    font-size: var(--taille-geant);
+    color: var(--couleur-texte);
+    text-shadow:
+      0 0 0.35em color-mix(in srgb, var(--couleur-rouge) 70%, transparent),
+      0 0.04em 0 var(--couleur-rouge);
+  }
+
+  .accroche {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--couleur-texte-doux);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nom {
+      animation: apparition 900ms ease-out both;
+    }
+  }
+
+  @keyframes apparition {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+</style>
