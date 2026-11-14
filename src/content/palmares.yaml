@@ -1,0 +1,51 @@
+# Le Palmarès de Faker. Une catégorie par clé (worlds, msi, lck, jeux-asiatiques), puis la liste
+# de ses victoires : annee (2013 ou plus), saison pour la LCK (hiver, printemps ou ete), lieu facultatif.
+# Pas de total : la page compte les victoires. L'ordre des catégories et des années est fixé par la page.
+# Vérifié le 2026-11-15 : Wikipédia anglais « Faker (gamer) », Sheep Esports, Inven Global,
+# Korea JoongAng Daily, Korea Herald.
+worlds:
+  - annee: 2013
+    lieu: Los Angeles
+  - annee: 2015
+    lieu: Berlin
+  - annee: 2016
+    lieu: Los Angeles
+  - annee: 2023
+    lieu: Séoul
+  - annee: 2024
+    lieu: Londres
+  - annee: 2025
+    lieu: Chengdu
+msi:
+  - annee: 2016
+    lieu: Shanghai
+  - annee: 2017
+    lieu: Rio de Janeiro
+lck:
+  - annee: 2013
+    saison: ete
+  # OGN Champions Winter 2013-14, finale en 2014.
+  - annee: 2014
+    saison: hiver
+  - annee: 2015
+    saison: printemps
+  - annee: 2015
+    saison: ete
+  - annee: 2016
+    saison: printemps
+  - annee: 2017
+    saison: printemps
+  - annee: 2019
+    saison: printemps
+  - annee: 2019
+    saison: ete
+  - annee: 2020
+    saison: printemps
+  - annee: 2022
+    saison: printemps
+jeux-asiatiques:
+  # Édition officiellement nommée « 2022 », jouée en 2023.
+  - annee: 2023
+    lieu: Hangzhou
+  - annee: 2026
+    lieu: Aichi-Nagoya

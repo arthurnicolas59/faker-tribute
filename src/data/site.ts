@@ -1,5 +1,8 @@
+import type { CategoriePalmares, Saison } from "./palmares-schema";
+
 /**
- * Les textes fixes de la page : onglet, En-tête, titre du Parcours et Mention site de fan.
+ * Les textes fixes de la page : onglet, En-tête, titres des Sections, libellés du Palmarès
+ * et Mention site de fan.
  * Le type sert de schéma : `astro check` refuse un texte manquant.
  */
 export interface TextesDuSite {
@@ -12,6 +15,15 @@ export interface TextesDuSite {
   };
   parcours: {
     titre: string;
+  };
+  palmares: {
+    titre: string;
+    /** Le nom de chaque catégorie, et l'unité de son total. */
+    categories: Record<
+      CategoriePalmares,
+      { nom: string; unite: { singulier: string; pluriel: string } }
+    >;
+    saisons: Record<Saison, string>;
   };
   mentionSiteDeFan: string;
 }
@@ -28,6 +40,23 @@ export const textesDuSite: TextesDuSite = {
   },
   parcours: {
     titre: "Le Parcours",
+  },
+  palmares: {
+    titre: "Le Palmarès",
+    categories: {
+      worlds: { nom: "Worlds", unite: { singulier: "titre", pluriel: "titres" } },
+      msi: { nom: "MSI", unite: { singulier: "titre", pluriel: "titres" } },
+      lck: { nom: "Champion de Corée (LCK)", unite: { singulier: "titre", pluriel: "titres" } },
+      "jeux-asiatiques": {
+        nom: "Jeux asiatiques",
+        unite: { singulier: "médaille d'or", pluriel: "médailles d'or" },
+      },
+    },
+    saisons: {
+      hiver: "Hiver",
+      printemps: "Printemps",
+      ete: "Été",
+    },
   },
   mentionSiteDeFan:
     "Site de fan non officiel. Il n'a aucun lien avec Riot Games ni avec T1, et n'est ni approuvé ni soutenu par eux.",

@@ -1,0 +1,76 @@
+{
+  "titre": "Le Palmarès",
+  "ticket": 5,
+  "ticket_url": "https://github.com/arthurnicolas59/faker-tribute/issues/5",
+  "date": "2026-11-15",
+  "branche": "ticket/5-palmares",
+  "objectif": "Le visiteur lisait l'histoire de Faker sans voir d'un coup d'œil ce qu'il a gagné. Il voit maintenant ses trophées, avec les 6 Worlds en grand, puis les MSI, la LCK et les Jeux asiatiques.",
+  "changements": [
+    "La Section « Le Palmarès » s'affiche juste après le Parcours",
+    "Les Worlds sont en tête, en grand : 6 titres, de 2013 à 2025",
+    "Puis 2 MSI, 10 titres de champion de Corée (LCK) et 2 médailles d'or aux Jeux asiatiques",
+    "Chaque total se compte à partir des années : il ne peut pas être faux",
+    "Une année fausse ou une catégorie oubliée bloque la mise en ligne"
+  ],
+  "avant_apres": {
+    "ecrans": [
+      {
+        "nom": "Ordinateur",
+        "avant": "avant-page-ordinateur.png",
+        "apres": "apres-page-ordinateur.png"
+      },
+      {
+        "nom": "Téléphone (360 px)",
+        "avant": "avant-page-telephone.png",
+        "apres": "apres-page-telephone.png"
+      }
+    ]
+  },
+  "fiabilite": {
+    "tests": "53 tests passent, dont 31 nouveaux sur le Palmarès",
+    "relecture": "Deux tours de relecture indépendante. 3 remarques corrigées : catégorie oubliée, saison mal placée, contradiction avec le Parcours sur 2026",
+    "risque": "faible",
+    "risque_detail": "Section ajoutée à part, avec ses propres fichiers. Rien d'existant ne change de comportement. Facile à retirer."
+  },
+  "choix": "Le ticket ne citait que l'or aux Jeux asiatiques 2023. En vérifiant, on a trouvé un second or en 2026, à Aichi-Nagoya : Faker était dans l'équipe, sans jouer la finale. On l'a compté, car le ticket demandait des résultats à jour. L'autre option était de s'en tenir à 2023. Pour rester cohérent, une phrase du Parcours 2026 cite aussi cette médaille. Autre choix : la LCK affiche la saison (printemps, été, hiver), car Faker a gagné deux fois en 2015 et en 2019. Enfin, chaque victoire internationale porte sa ville, comme un repère.",
+  "a_decider": "Valider deux choix de contenu : l'or 2026 aux Jeux asiatiques, compté alors que Faker n'a pas joué la finale, et les villes ajoutées. Puis merger.",
+  "essayer": "Lancez « npm run dev », ouvrez la page et descendez sous le Parcours : les Worlds sont en grand, puis MSI, LCK et Jeux asiatiques. Réduisez la fenêtre à la largeur d'un téléphone : rien ne déborde.",
+  "criteres": [
+    {
+      "critere": "La Section Palmarès apparaît après le Parcours s'il existe, sinon après l'En-tête, avec son propre titre.",
+      "preuve": "Test : la Section suit le Parcours dans la page, avec son titre « Le Palmarès »"
+    },
+    {
+      "critere": "L'ordre est le suivant : Worlds (mis en avant visuellement), MSI, LCK, Jeux asiatiques.",
+      "preuve": "Test : les quatre catégories sont dans cet ordre, et seuls les Worlds sont mis en avant. Captures ordinateur et téléphone"
+    },
+    {
+      "critere": "Chaque catégorie affiche ses années et son total, et le total est calculé à partir des années, jamais saisi à la main.",
+      "preuve": "Test : chaque total (6, 2, 10, 2) égale le nombre d'années affichées. Test : un total écrit à la main est refusé"
+    },
+    {
+      "critere": "Les données sont validées par un schéma : une année invalide ou une catégorie inconnue fait échouer le build.",
+      "preuve": "Tests : année avant 2013, en texte ou non entière, catégorie inconnue, refusées. Essai à la main : la mise en ligne échoue"
+    },
+    {
+      "critere": "Les résultats ont été vérifiés, et la source utilisée est citée dans la pull request.",
+      "preuve": "Vérifiés le 15 novembre 2026 sur Wikipédia, Sheep Esports, Inven Global et Korea JoongAng Daily. Sources citées dans la pull request"
+    },
+    {
+      "critere": "Les chiffres finaux sont présents dans le HTML, même sans JavaScript.",
+      "preuve": "Test : les totaux sont lus dans la page fabriquée, qui ne contient aucun script pour le Palmarès"
+    },
+    {
+      "critere": "Un test sur la page rendue vérifie l'ordre des catégories, les totaux et les années.",
+      "preuve": "Test : la page complète est fabriquée puis lue : ordre, totaux et années sont vérifiés"
+    }
+  ],
+  "fichiers": {
+    "src/content/palmares.yaml": "Les victoires de Faker par catégorie, avec année, saison et ville",
+    "src/data/palmares-schema.ts": "Les règles que les victoires doivent respecter, sinon la mise en ligne échoue",
+    "src/data/palmares.ts": "Range les catégories dans l'ordre et compte les totaux",
+    "src/components/Palmares.astro": "Affiche la Section Palmarès",
+    "src/content/parcours.yaml": "Le Parcours 2026 cite l'or aux Jeux asiatiques",
+    "tests/palmares.test.ts": "Vérifie le Palmarès dans la page finale"
+  }
+}
