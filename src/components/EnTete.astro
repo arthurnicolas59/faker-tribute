@@ -1,0 +1,11 @@
+---
+import { textesDuSite } from "../data/site";
+
+const { nom, surnom, accroche } = textesDuSite.enTete;
+---
+
+<header class="en-tete">
+  <p class="surnom">{surnom}</p>
+  <h1 class="nom">{nom}</h1>
+  <p class="accroche">{accroche}</p>
+</header>
