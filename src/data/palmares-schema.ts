@@ -24,6 +24,8 @@ const victoireSchema = z.strictObject({
  */
 export const categoriePalmaresSchema = z
   .strictObject({
+    // Astro transmet aussi le nom de l'entrée ; toute autre clé (un `total`, par exemple) est refusée.
+    id: z.string().optional(),
     categorie: z.enum(CATEGORIES_PALMARES),
     victoires: z.array(victoireSchema).min(1),
   })

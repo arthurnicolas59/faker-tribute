@@ -1,0 +1,147 @@
+---
+import { getCollection } from "astro:content";
+import { ordonnerPalmares } from "../data/palmares";
+import { textesDuSite } from "../data/site";
+
+const { titre, categories, saisons } = textesDuSite.palmares;
+const palmares = ordonnerPalmares((await getCollection("palmares")).map(({ data }) => data));
+---
+
+<section class="palmares" aria-labelledby="titre-palmares">
+  <h2 id="titre-palmares" class="titre-section">{titre}</h2>
+  <div class="categories">
+    {
+      palmares.map(({ categorie, victoires, total }) => {
+        const { nom, unite } = categories[categorie];
+        return (
+          <article class:list={["categorie", { "en-avant": categorie === "worlds" }]}>
+            <h3 class="nom">{nom}</h3>
+            <p class="total">
+              <span class="chiffre">{total}</span> {total > 1 ? unite[1] : unite[0]}
+            </p>
+            <ol class="victoires">
+              {victoires.map(({ annee, saison, lieu }) => (
+                <li>
+                  {saison && <span class="saison">{saisons[saison]}</span>}
+                  {saison && " "}
+                  <time datetime={String(annee)}>{annee}</time>
+                  {lieu && " "}
+                  {lieu && <span class="lieu">{lieu}</span>}
+                </li>
+              ))}
+            </ol>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  .palmares {
+    max-width: calc(var(--largeur-contenu) + 2 * var(--marge-laterale));
+    margin: 0 auto;
+    padding: 4rem var(--marge-laterale);
+  }
+
+  .titre-section {
+    margin: 0 0 2.5rem;
+    padding-bottom: 0.75rem;
+    color: var(--couleur-or);
+    font-size: var(--taille-titre-section);
+    border-bottom: 2px solid var(--couleur-rouge);
+  }
+
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  .categorie {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 1.5rem;
+    background: var(--couleur-noir-doux);
+    border: 1px solid var(--couleur-rouge-sombre);
+    border-top: 3px solid var(--couleur-rouge);
+  }
+
+  .nom {
+    margin: 0;
+    font-size: var(--taille-titre-etape);
+  }
+
+  .total {
+    margin: 0;
+    color: var(--couleur-texte-doux);
+    font-size: var(--taille-petit);
+    text-transform: uppercase;
+    letter-spacing: var(--interlettrage-surtitre);
+  }
+
+  .chiffre {
+    display: block;
+    color: var(--couleur-or);
+    font-family: var(--police-titre);
+    font-size: var(--taille-titre-section);
+    font-weight: var(--graisse-titre);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .victoires {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .victoires li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--couleur-rouge-sombre);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .saison,
+  .lieu {
+    color: var(--couleur-texte-doux);
+  }
+
+  /* Les Worlds, trophée le plus prestigieux : toute la largeur, cadre et chiffre en or. */
+  .en-avant {
+    grid-column: 1 / -1;
+    background:
+      radial-gradient(ellipse 60% 80% at 0% 0%, var(--couleur-rouge-sombre), transparent 70%),
+      var(--couleur-noir-doux);
+    border-color: var(--couleur-or);
+    border-top-color: var(--couleur-or);
+  }
+
+  .en-avant .nom {
+    color: var(--couleur-or);
+    font-size: var(--taille-titre-section);
+  }
+
+  .en-avant .chiffre {
+    font-size: var(--taille-geant);
+    text-shadow: 0 0 0.3em color-mix(in srgb, var(--couleur-rouge) 60%, transparent);
+  }
+
+  .en-avant .victoires li {
+    border-color: var(--couleur-or);
+  }
+
+  .en-avant time {
+    color: var(--couleur-or);
+    font-weight: 700;
+  }
+</style>
