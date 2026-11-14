@@ -29,8 +29,8 @@ export interface TextesDuSite {
     titre: string;
     /** Le début de la ligne qui nomme la chaîne officielle sous chaque vidéo. */
     sourceVideo: string;
-    /** Le début du `title` de chaque Vidéo intégrée, lu par les lecteurs d'écran. */
-    titreVideo: string;
+    /** Le `title` de chaque Vidéo intégrée, lu par les lecteurs d'écran. */
+    titreVideo: (titreMoment: string, chaine: string) => string;
   };
   mentionSiteDeFan: string;
 }
@@ -68,7 +68,8 @@ export const textesDuSite: TextesDuSite = {
   momentsMythiques: {
     titre: "Les Moments mythiques",
     sourceVideo: "Vidéo :",
-    titreVideo: "Vidéo du Moment mythique",
+    titreVideo: (titreMoment, chaine) =>
+      `Vidéo du Moment mythique « ${titreMoment} », publiée par ${chaine}`,
   },
   mentionSiteDeFan:
     "Site de fan non officiel. Il n'a aucun lien avec Riot Games ni avec T1, et n'est ni approuvé ni soutenu par eux.",

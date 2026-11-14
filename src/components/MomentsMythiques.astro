@@ -1,29 +1,18 @@
 ---
 import { getCollection } from "astro:content";
+import { dateLisible, ordonnerMoments } from "../data/moments";
 import { textesDuSite } from "../data/site";
 
 const { titre, sourceVideo, titreVideo } = textesDuSite.momentsMythiques;
 
-// Les Moments sont rangés par date, quel que soit leur ordre dans le fichier.
-const moments = (await getCollection("moments")).sort((a, b) =>
-  a.data.date.localeCompare(b.data.date),
-);
-
-// La date est lue à midi UTC pour qu'aucun fuseau horaire ne la décale d'un jour.
-const formatDate = new Intl.DateTimeFormat("fr-FR", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
-const dateLisible = (date: string) => formatDate.format(new Date(`${date}T12:00:00Z`));
+const moments = ordonnerMoments((await getCollection("moments")).map(({ data }) => data));
 ---
 
 <section class="moments" aria-labelledby="titre-moments">
   <h2 id="titre-moments" class="titre-section">{titre}</h2>
   <div class="liste">
     {
-      moments.map(({ data }) => (
+      moments.map((data) => (
         <article class="moment">
           <div class="recit">
             <h3 class="moment-titre">{data.titre}</h3>
@@ -36,7 +25,7 @@ const dateLisible = (date: string) => formatDate.format(new Date(`${date}T12:00:
             <div class="cadre">
               <iframe
                 src={`https://www.youtube-nocookie.com/embed/${data.video.id}`}
-                title={`${titreVideo} « ${data.titre} », publiée par ${data.video.chaine}`}
+                title={titreVideo(data.titre, data.video.chaine)}
                 loading="lazy"
                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
