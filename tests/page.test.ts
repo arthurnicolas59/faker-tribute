@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { textesDuSite } from "../src/data/site";
 import { renderPage, textOf } from "./helpers/render-page";
 
 describe("la page", () => {
@@ -26,12 +27,12 @@ describe("la page", () => {
   it("ouvre sur l'En-tête : le nom, le surnom et une accroche", async () => {
     const page = await renderPage();
 
-    const enTete = page.querySelector("header");
+    const enTete = page.querySelector("body > header");
     expect(enTete?.querySelector("h1")).not.toBeNull();
     const texte = textOf(enTete);
     expect(texte).toContain("The Unkillable Demon King");
-    const accroche = texte.replace("Faker", "").replace("The Unkillable Demon King", "").trim();
-    expect(accroche.length).toBeGreaterThan(20);
+    expect(textesDuSite.enTete.accroche.length).toBeGreaterThan(20);
+    expect(texte).toContain(textesDuSite.enTete.accroche);
   });
 
   it("finit par la Mention site de fan : non officiel, sans lien avec Riot Games ni T1", async () => {
