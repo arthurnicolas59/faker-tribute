@@ -16,5 +16,10 @@ export async function chargerParcours(fichier: string): Promise<Array<{ id: stri
   if (etapes.length === 0) {
     throw new Error(`${fichier} ne contient aucune étape.`);
   }
-  return etapes.map(([id, etape]) => ({ ...(etape as object), id }));
+  return etapes.map(([id, etape]) => {
+    if (etape === null || typeof etape !== "object" || Array.isArray(etape)) {
+      throw new Error(`${fichier} : l'étape « ${id} » doit avoir une année, un titre et un texte.`);
+    }
+    return { ...etape, id };
+  });
 }

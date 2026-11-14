@@ -26,6 +26,7 @@ describe("la lecture du fichier du Parcours", () => {
     ["deux étapes du même nom", `debuts:\n${etape(2013)}debuts:\n${etape(2015)}`],
     ["un fichier sans étape", "# rien\n"],
     ["une liste au lieu d'étapes nommées", `- annee: 2013\n  titre: T\n  texte: T\n`],
+    ["une étape réduite à un texte", `debuts: juste un texte\n`],
     ["un fichier mal écrit", `debuts:\n  annee: 2013\n titre: décalé\n`],
   ])("refuse %s", async (_nom, contenu) => {
     await expect(chargerParcours(fichier(contenu))).rejects.toThrow();

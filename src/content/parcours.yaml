@@ -1,5 +1,5 @@
 # Le Parcours de Faker. Une étape par entrée : son nom court (unique), puis annee (2013 ou plus),
-# titre et texte, qu'aucun ne peut être vide. La page range les étapes par année.
+# titre et texte, dont aucun ne peut être vide. La page range les étapes par année.
 debuts:
   annee: 2013
   titre: Des débuts hors norme
@@ -17,10 +17,10 @@ sommet:
     sacrés trois fois aux Worlds. Il ajoute le Mid-Season Invitational (MSI) en 2016 et en 2017.
 epreuves:
   annee: 2017
-  titre: La défaite, puis les années difficiles
+  titre: La défaite, puis des années sans Worlds
   texte: >-
     En finale des Worlds 2017, SKT s'incline face à Samsung Galaxy, et les images de Faker en
-    larmes marquent les fans. Suivent des années plus dures : l'équipe n'est pas qualifiée aux
+    larmes marquent les fans. Suivent des années sans titre mondial : l'équipe n'est pas qualifiée aux
     Worlds 2018, puis devient T1 en 2019. Faker gagne encore la LCK au printemps et à l'été 2019,
     puis au printemps 2020. Il reste fidèle à une seule équipe, malgré des offres plus lucratives.
 invaincu:
@@ -49,6 +49,6 @@ aujourdhui:
   annee: 2026
   titre: Toujours là
   texte: >-
-    En 2026, Faker joue sa quatorzième saison, toujours chez T1, dont le contrat court
+    En 2026, Faker joue sa quatorzième saison, toujours chez T1 : son contrat avec l'équipe court
     jusqu'en 2029. L'année ne finit pas en titre : Hanwha Life Esports gagne le MSI, et T1
     s'arrête en demi-finale des Worlds, battue 3-1 par Bilibili Gaming.

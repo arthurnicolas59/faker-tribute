@@ -7,7 +7,7 @@ describe("la Section Parcours", () => {
 
     const enTete = page.querySelector("body > header");
     const main = page.querySelector("body > main");
-    const parcours = main?.querySelector("section");
+    const parcours = page.querySelector("#titre-parcours")?.closest("section");
     expect(enTete).not.toBeNull();
     expect(parcours).not.toBeNull();
     expect(main?.firstElementChild).toBe(parcours);
@@ -21,7 +21,7 @@ describe("la Section Parcours", () => {
 
   it("raconte de 2013 à l'année la plus récente, en étapes ordonnées", async () => {
     const page = await renderPage();
-    const parcours = page.querySelector("main > section");
+    const parcours = page.querySelector("#titre-parcours")?.closest("section") ?? null;
 
     const etapes = parcours?.querySelectorAll("article") ?? [];
     expect(etapes.length).toBeGreaterThanOrEqual(5);
