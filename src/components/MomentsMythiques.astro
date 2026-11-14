@@ -1,0 +1,132 @@
+---
+import { getCollection } from "astro:content";
+import { dateLisible, ordonnerMoments } from "../data/moments";
+import { textesDuSite } from "../data/site";
+
+const { titre, sourceVideo, titreVideo } = textesDuSite.momentsMythiques;
+
+const moments = ordonnerMoments((await getCollection("moments")).map(({ data }) => data));
+---
+
+<section class="moments" aria-labelledby="titre-moments">
+  <h2 id="titre-moments" class="titre-section">{titre}</h2>
+  <div class="liste">
+    {
+      moments.map((data) => (
+        <article class="moment">
+          <div class="recit">
+            <h3 class="moment-titre">{data.titre}</h3>
+            <time class="date" datetime={data.date}>
+              {dateLisible(data.date)}
+            </time>
+            <p>{data.texte}</p>
+          </div>
+          <figure class="video">
+            <div class="cadre">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${data.video.id}`}
+                title={titreVideo(data.titre, data.video.chaine)}
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              />
+            </div>
+            <figcaption class="chaine">
+              {sourceVideo} {data.video.chaine}
+            </figcaption>
+          </figure>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .moments {
+    max-width: calc(var(--largeur-contenu) + 2 * var(--marge-laterale));
+    margin: 0 auto;
+    padding: 4rem var(--marge-laterale);
+  }
+
+  .titre-section {
+    margin: 0 0 2.5rem;
+    padding-bottom: 0.75rem;
+    color: var(--couleur-or);
+    font-size: var(--taille-titre-section);
+    border-bottom: 2px solid var(--couleur-rouge);
+  }
+
+  .liste {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .moment {
+    display: grid;
+    gap: 1.25rem;
+    min-width: 0;
+  }
+
+  .recit {
+    min-width: 0;
+    padding-left: 1rem;
+    border-left: 3px solid var(--couleur-rouge);
+  }
+
+  .moment-titre {
+    margin: 0 0 0.25rem;
+    font-size: var(--taille-titre-etape);
+  }
+
+  .date {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--couleur-or);
+    font-size: var(--taille-petit);
+    text-transform: uppercase;
+    letter-spacing: var(--interlettrage-surtitre);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .recit p {
+    margin: 0;
+    color: var(--couleur-texte-doux);
+  }
+
+  .video {
+    min-width: 0;
+    margin: 0;
+  }
+
+  /* Le cadre garde le format 16:9 et ne dépasse jamais la largeur disponible. */
+  .cadre {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--couleur-noir-doux);
+    border: 1px solid var(--couleur-rouge-sombre);
+  }
+
+  .cadre iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .chaine {
+    margin-top: 0.5rem;
+    color: var(--couleur-texte-doux);
+    font-size: var(--taille-petit);
+  }
+
+  /* Sur ordinateur : le récit à gauche, la vidéo plus large à droite. */
+  @media (min-width: 48rem) {
+    .moment {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      align-items: start;
+      gap: 2rem;
+    }
+  }
+</style>
