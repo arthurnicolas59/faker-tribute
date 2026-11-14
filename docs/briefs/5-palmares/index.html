@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Palmarès</title>
+<style>
+  :root {
+    --bg: #ffffff; --text: #16191d; --body: #2b3036; --muted: #6a717a; --rule: #d5d9de; --hair: #e8ebee;
+    --ink: #0d2240;
+    --low: #2e7d4f; --medium: #b06f00; --high: #b3261e;
+    --added: #2e7d4f; --modified: #0d2240; --deleted: #b3261e; --renamed: #6a717a;
+  }
+  /* Zoom : un clic sur une capture ou un schéma l'ouvre en grand */
+  figure img, pre.mermaid svg { cursor: zoom-in; }
+  .zoom { font-size: 11px; position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 3vh 3vw; background: rgba(13, 34, 64, 0.88); cursor: zoom-out; }
+  .zoom[hidden] { display: none; }
+  .zoom > * { max-width: 100%; max-height: 100%; background: #fff; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35); }
+  .zoom > svg { width: 100%; height: auto; padding: 24px; }
+  @media print { .zoom { display: none; } }
+  @page { size: A4; margin: 18mm 17mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--body);
+    font: 13.5px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 28px 40px; }
+  @media print { main { padding: 0; max-width: none; } }
+  @media (max-width: 600px) { main { padding: 28px 16px 32px; } }
+  p { margin: 0; }
+  .label, h2, th {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* En-tête */
+  .masthead { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 2.5px solid var(--ink); }
+  .masthead a { color: inherit; text-decoration: none; }
+  h1 { color: var(--text); font-size: 26px; line-height: 1.2; font-weight: 650; letter-spacing: -0.01em; margin: 22px 0 10px; }
+  .objectif { font-size: 15.5px; line-height: 1.55; color: var(--body); max-width: 680px; }
+  .revision { margin-top: 10px; padding-left: 10px; border-left: 2.5px solid var(--ink); max-width: 680px; }
+  .revision .label { margin-right: 6px; }
+
+  /* Synthèse : décision et risque */
+  .summary { display: grid; grid-template-columns: 1fr 180px; margin: 24px 0 8px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .summary > div { padding: 12px 0; }
+  .summary > div + div { border-left: 1px solid var(--rule); padding-left: 18px; }
+  .summary .value { color: var(--text); font-size: 14.5px; font-weight: 600; margin-top: 3px; }
+  .dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; vertical-align: 1px; }
+  .dot.low { background: var(--low); } .dot.medium { background: var(--medium); } .dot.high { background: var(--high); }
+  @media (max-width: 600px) {
+    .summary { grid-template-columns: 1fr; }
+    .summary > div + div { border-left: 0; border-top: 1px solid var(--hair); padding-left: 0; }
+  }
+
+  /* Sections : intitulé à gauche, contenu à droite */
+  .row { display: grid; grid-template-columns: 132px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; }
+  .row:last-of-type { border-bottom: 0; }
+  h2 { margin: 2px 0 0; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; gap: 8px; } }
+
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: c; }
+  ol li { counter-increment: c; display: grid; grid-template-columns: 22px 1fr; margin-bottom: 5px; }
+  ol li:last-child { margin-bottom: 0; }
+  ol li::before { content: counter(c) "."; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .pair { margin-bottom: 14px; } .pair:last-child { margin-bottom: 0; }
+  .pair-name { color: var(--text); font-weight: 600; margin-bottom: 8px; }
+  .pair-images, .text-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .arrow { display: none; }
+  figure { margin: 0; min-width: 0; display: flex; flex-direction: column-reverse; }
+  figure img { display: block; width: 100%; max-height: 230px; object-fit: contain; object-position: top left; border: 1px solid var(--rule); background: #fafbfc; }
+  pre.mermaid { margin: 0; padding: 10px; border: 1px solid var(--rule); background: #fafbfc; font-size: 11px; white-space: pre-wrap; overflow: hidden; }
+  pre.mermaid svg { max-width: 100%; height: auto; max-height: 120px; }
+  pre.mermaid .label, .zoom .label { text-transform: none; letter-spacing: 0; font-size: inherit; font-weight: normal; color: inherit; }
+  .pair-images.schemas { grid-template-columns: 1fr; gap: 10px; }
+  figcaption { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .text-box { border-top: 2px solid var(--rule); padding-top: 8px; }
+  .text-box.after { border-top-color: var(--ink); }
+  .text-box .label { margin-bottom: 4px; }
+  @media (max-width: 600px) { .pair-images, .text-pair { grid-template-columns: 1fr; } }
+
+  .facts p { display: grid; grid-template-columns: 108px 1fr; gap: 8px; margin-bottom: 4px; }
+  .facts p:last-child { margin-bottom: 0; }
+  .facts .k { color: var(--muted); }
+
+  .choix p { color: var(--body); }
+
+  /* Annexe */
+  .annexe { break-before: page; border-top: 2.5px solid var(--ink); padding-top: 18px; }
+  @media screen { .annexe { margin-top: 40px; } }
+  .annexe h2.title { font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--text); font-weight: 650; margin: 0 0 4px; }
+  .annexe .annexe-label { margin-bottom: 10px; }
+  .annexe .table-wrap + h2.title { margin-top: 28px; }
+  table.criteres td:first-child { width: 110px; }
+  .annexe .summary-line { color: var(--muted); margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; padding: 0 10px 8px 0; border-bottom: 1.5px solid var(--text); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  tr { break-inside: avoid; }
+  td:first-child { width: 96px; white-space: nowrap; color: var(--text); }
+  .status::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 7px; vertical-align: 1px; }
+  .status.added::before { background: var(--added); } .status.modified::before { background: var(--modified); }
+  .status.deleted::before { background: var(--deleted); } .status.renamed::before { background: var(--renamed); }
+  .path { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; color: var(--text); word-break: break-all; }
+  .role { color: var(--muted); margin-top: 1px; }
+  th.lines, .lines { text-align: right; padding-right: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .plus, .minus { color: var(--muted); }
+  .more { color: var(--muted); font-style: italic; }
+
+  footer { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--rule); }
+</style>
+</head>
+<body>
+<main>
+  <div class="masthead label"><span>Brief d'évolution · <a href="https://github.com/arthurnicolas59/faker-tribute/issues/5">Ticket #5</a></span><span>15 novembre 2026</span></div>
+  <h1>Le Palmarès</h1>
+  <p class="objectif">Le visiteur lisait l&#x27;histoire de Faker sans voir d&#x27;un coup d&#x27;œil ce qu&#x27;il a gagné. Il voit maintenant ses trophées, avec les 6 Worlds en grand, puis les MSI, la LCK et les Jeux asiatiques.</p>
+
+
+  <div class="summary">
+    <div><p class="label">Décision attendue</p><p class="value">Valider deux choix de contenu : l&#x27;or 2026 aux Jeux asiatiques, compté alors que Faker n&#x27;a pas joué la finale, et les villes ajoutées. Puis merger.</p></div>
+    <div><p class="label">Risque</p><p class="value"><span class="dot low"></span>Faible</p></div>
+  </div>
+
+  <section class="row"><h2>Avant / après</h2><div>
+<div class="pair"><p class="pair-name">Ordinateur</p><div class="pair-images"><figure><img src="avant-page-ordinateur.png" alt="Avant : Ordinateur"><figcaption>Avant</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="apres-page-ordinateur.png" alt="Après : Ordinateur"><figcaption>Après</figcaption></figure></div></div>
+<div class="pair"><p class="pair-name">Téléphone (360 px)</p><div class="pair-images"><figure><img src="avant-page-telephone.png" alt="Avant : Téléphone (360 px)"><figcaption>Avant</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="apres-page-telephone.png" alt="Après : Téléphone (360 px)"><figcaption>Après</figcaption></figure></div></div>
+  </div></section>
+
+  <section class="row"><h2>Ce qui change</h2><ol>
+<li>La Section « Le Palmarès » s&#x27;affiche juste après le Parcours</li>
+<li>Les Worlds sont en tête, en grand : 6 titres, de 2013 à 2025</li>
+<li>Puis 2 MSI, 10 titres de champion de Corée (LCK) et 2 médailles d&#x27;or aux Jeux asiatiques</li>
+<li>Chaque total se compte à partir des années : il ne peut pas être faux</li>
+<li>Une année fausse ou une catégorie oubliée bloque la mise en ligne</li>
+  </ol></section>
+
+  <section class="row"><h2>Fiabilité</h2><div class="facts">
+    <p><span class="k">Tests</span><span>53 tests passent, dont 31 nouveaux sur le Palmarès</span></p>
+    <p><span class="k">Checks</span><span>Passés sur cette version (0547671)</span></p>
+    <p><span class="k">Critères</span><span>7 sur 7 prouvés (voir l&#x27;annexe)</span></p>
+    <p><span class="k">Tests existants</span><span>Aucun supprimé ni modifié</span></p>
+    <p><span class="k">Relecture</span><span>Deux tours de relecture indépendante. 3 remarques corrigées : catégorie oubliée, saison mal placée, contradiction avec le Parcours sur 2026</span></p>
+    <p><span class="k">Risque</span><span>Section ajoutée à part, avec ses propres fichiers. Rien d&#x27;existant ne change de comportement. Facile à retirer.</span></p>
+  </div></section>
+
+  <section class="row choix"><h2>Choix effectués</h2><p>Le ticket ne citait que l&#x27;or aux Jeux asiatiques 2023. En vérifiant, on a trouvé un second or en 2026, à Aichi-Nagoya : Faker était dans l&#x27;équipe, sans jouer la finale. On l&#x27;a compté, car le ticket demandait des résultats à jour. L&#x27;autre option était de s&#x27;en tenir à 2023. Pour rester cohérent, une phrase du Parcours 2026 cite aussi cette médaille. Autre choix : la LCK affiche la saison (printemps, été, hiver), car Faker a gagné deux fois en 2015 et en 2019. Enfin, chaque victoire internationale porte sa ville, comme un repère.</p></section>
+  <section class="row"><h2>Pour l'essayer</h2><p>Lancez « npm run dev », ouvrez la page et descendez sous le Parcours : les Worlds sont en grand, puis MSI, LCK et Jeux asiatiques. Réduisez la fenêtre à la largeur d&#x27;un téléphone : rien ne déborde.</p></section>
+<section class="annexe">
+<p class="label annexe-label">Annexe</p>
+<h2 class="title">Les critères du ticket</h2>
+<p class="summary-line">Pour chaque critère d'acceptation, le test ou la capture qui le prouve.</p>
+<div class="table-wrap"><table class="criteres"><thead><tr><th>État</th><th>Critère</th></tr></thead><tbody>
+<tr><td><span class="status added">Prouvé</span></td><td><p>La Section Palmarès apparaît après le Parcours s&#x27;il existe, sinon après l&#x27;En-tête, avec son propre titre.</p><p class="role">Test : la Section suit le Parcours dans la page, avec son titre « Le Palmarès »</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>L&#x27;ordre est le suivant : Worlds (mis en avant visuellement), MSI, LCK, Jeux asiatiques.</p><p class="role">Test : les quatre catégories sont dans cet ordre, et seuls les Worlds sont mis en avant. Captures ordinateur et téléphone</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Chaque catégorie affiche ses années et son total, et le total est calculé à partir des années, jamais saisi à la main.</p><p class="role">Test : chaque total (6, 2, 10, 2) égale le nombre d&#x27;années affichées. Test : un total écrit à la main est refusé</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Les données sont validées par un schéma : une année invalide ou une catégorie inconnue fait échouer le build.</p><p class="role">Tests : année avant 2013, en texte ou non entière, catégorie inconnue, refusées. Essai à la main : la mise en ligne échoue</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Les résultats ont été vérifiés, et la source utilisée est citée dans la pull request.</p><p class="role">Vérifiés le 15 novembre 2026 sur Wikipédia, Sheep Esports, Inven Global et Korea JoongAng Daily. Sources citées dans la pull request</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Les chiffres finaux sont présents dans le HTML, même sans JavaScript.</p><p class="role">Test : les totaux sont lus dans la page fabriquée, qui ne contient aucun script pour le Palmarès</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Un test sur la page rendue vérifie l&#x27;ordre des catégories, les totaux et les années.</p><p class="role">Test : la page complète est fabriquée puis lue : ordre, totaux et années sont vérifiés</p></td></tr>
+</tbody></table></div>
+
+<h2 class="title">Les fichiers touchés</h2>
+<p class="summary-line">13 fichiers : 9 créés, 4 modifiés.</p>
+<div class="table-wrap"><table><thead><tr><th>Statut</th><th>Fichier</th><th class="lines">Lignes</th></tr></thead><tbody>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/components/Palmares.astro</p><p class="role">Affiche la Section Palmarès</p></td><td class="lines"><span class="plus">+147</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/content/palmares.yaml</p><p class="role">Les victoires de Faker par catégorie, avec année, saison et ville</p></td><td class="lines"><span class="plus">+51</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/data/charger-palmares.ts</p></td><td class="lines"><span class="plus">+27</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/data/palmares-schema.ts</p><p class="role">Les règles que les victoires doivent respecter, sinon la mise en ligne échoue</p></td><td class="lines"><span class="plus">+62</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/data/palmares.ts</p><p class="role">Range les catégories dans l&#x27;ordre et compte les totaux</p></td><td class="lines"><span class="plus">+36</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/charger-palmares.test.ts</p></td><td class="lines"><span class="plus">+34</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/ordonner-palmares.test.ts</p></td><td class="lines"><span class="plus">+45</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/palmares-schema.test.ts</p></td><td class="lines"><span class="plus">+55</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/palmares.test.ts</p><p class="role">Vérifie le Palmarès dans la page finale</p></td><td class="lines"><span class="plus">+77</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status modified">Modifié</span></td><td><p class="path">src/content.config.ts</p></td><td class="lines"><span class="plus">+8</span> <span class="minus">−1</span></td></tr>
+<tr><td><span class="status modified">Modifié</span></td><td><p class="path">src/content/parcours.yaml</p><p class="role">Le Parcours 2026 cite l&#x27;or aux Jeux asiatiques</p></td><td class="lines"><span class="plus">+4</span> <span class="minus">−2</span></td></tr>
+<tr><td><span class="status modified">Modifié</span></td><td><p class="path">src/data/site.ts</p></td><td class="lines"><span class="plus">+30</span> <span class="minus">−1</span></td></tr>
+<tr><td><span class="status modified">Modifié</span></td><td><p class="path">src/pages/index.astro</p></td><td class="lines"><span class="plus">+2</span> <span class="minus">−0</span></td></tr>
+</tbody></table></div>
+</section>
+  <footer><span>Branche ticket/5-palmares</span><span>an-forge</span></footer>
+</main>
+<div class="zoom" hidden></div>
+<script>
+  // Zoom des captures et des schémas : un clic ouvre, un clic ou Échap ferme.
+  (() => {
+    const zoom = document.querySelector(".zoom");
+    const close = () => { zoom.hidden = true; zoom.replaceChildren(); };
+    document.addEventListener("click", (e) => {
+      if (!zoom.hidden) return close();
+      const target = e.target.closest("figure img, pre.mermaid svg");
+      if (!target) return;
+      const copy = target.cloneNode(true);
+      copy.removeAttribute("style");
+      zoom.replaceChildren(copy);
+      zoom.hidden = false;
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  })();
+</script>
+<script>document.documentElement.dataset.ready = '1';</script>
+</body>
+</html>
