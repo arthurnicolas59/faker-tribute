@@ -20,15 +20,17 @@ const rangSaison = (victoire: Victoire) =>
 /**
  * Range le Palmarès pour l'affichage : les catégories dans l'ordre fixé par le code
  * (Worlds, MSI, LCK, Jeux asiatiques), quel que soit l'ordre du fichier, et les victoires
- * par année puis par saison.
+ * par année puis par saison. Une catégorie absente du fichier arrête le build.
  */
 export function ordonnerPalmares(entrees: CategoriePalmaresDonnees[]): CategorieAffichee[] {
-  return CATEGORIES_PALMARES.flatMap((categorie) => {
+  return CATEGORIES_PALMARES.map((categorie) => {
     const entree = entrees.find((e) => e.categorie === categorie);
-    if (entree === undefined) return [];
+    if (entree === undefined) {
+      throw new Error(`Le Palmarès doit contenir la catégorie « ${categorie} ».`);
+    }
     const victoires = [...entree.victoires].sort(
       (a, b) => a.annee - b.annee || rangSaison(a) - rangSaison(b),
     );
-    return [{ categorie, victoires, total: victoires.length }];
+    return { categorie, victoires, total: victoires.length };
   });
 }

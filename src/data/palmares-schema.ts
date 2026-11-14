@@ -20,7 +20,8 @@ const victoireSchema = z.strictObject({
 /**
  * Le schéma d'une catégorie du Palmarès et de ses victoires. Il n'y a pas de total :
  * la page le déduit du nombre de victoires. Une catégorie inconnue, une année hors bornes,
- * un titre LCK sans saison ou une victoire en double fait échouer `astro build`.
+ * un titre LCK sans saison, une saison hors LCK
+ * ou une victoire en double fait échouer `astro build`.
  */
 export const categoriePalmaresSchema = z
   .strictObject({
@@ -37,6 +38,13 @@ export const categoriePalmaresSchema = z
           code: "custom",
           path: ["victoires", index, "saison"],
           message: "Un titre LCK doit indiquer sa saison (hiver, printemps ou ete).",
+        });
+      }
+      if (categorie !== "lck" && victoire.saison !== undefined) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["victoires", index, "saison"],
+          message: "Seuls les titres LCK ont une saison.",
         });
       }
       const cle = `${victoire.annee}-${victoire.saison ?? ""}`;

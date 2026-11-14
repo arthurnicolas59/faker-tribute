@@ -17,7 +17,7 @@ const palmares = ordonnerPalmares((await getCollection("palmares")).map(({ data 
           <article class:list={["categorie", { "en-avant": categorie === "worlds" }]}>
             <h3 class="nom">{nom}</h3>
             <p class="total">
-              <span class="chiffre">{total}</span> {total > 1 ? unite[1] : unite[0]}
+              <span class="chiffre">{total}</span> {total > 1 ? unite.pluriel : unite.singulier}
             </p>
             <ol class="victoires">
               {victoires.map(({ annee, saison, lieu }) => (

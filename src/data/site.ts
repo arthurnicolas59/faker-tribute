@@ -18,8 +18,11 @@ export interface TextesDuSite {
   };
   palmares: {
     titre: string;
-    /** Le nom de chaque catégorie, et l'unité de son total (au singulier, puis au pluriel). */
-    categories: Record<CategoriePalmares, { nom: string; unite: [string, string] }>;
+    /** Le nom de chaque catégorie, et l'unité de son total. */
+    categories: Record<
+      CategoriePalmares,
+      { nom: string; unite: { singulier: string; pluriel: string } }
+    >;
     saisons: Record<Saison, string>;
   };
   mentionSiteDeFan: string;
@@ -41,10 +44,13 @@ export const textesDuSite: TextesDuSite = {
   palmares: {
     titre: "Le Palmarès",
     categories: {
-      worlds: { nom: "Worlds", unite: ["titre", "titres"] },
-      msi: { nom: "MSI", unite: ["titre", "titres"] },
-      lck: { nom: "Champion de Corée (LCK)", unite: ["titre", "titres"] },
-      "jeux-asiatiques": { nom: "Jeux asiatiques", unite: ["médaille d'or", "médailles d'or"] },
+      worlds: { nom: "Worlds", unite: { singulier: "titre", pluriel: "titres" } },
+      msi: { nom: "MSI", unite: { singulier: "titre", pluriel: "titres" } },
+      lck: { nom: "Champion de Corée (LCK)", unite: { singulier: "titre", pluriel: "titres" } },
+      "jeux-asiatiques": {
+        nom: "Jeux asiatiques",
+        unite: { singulier: "médaille d'or", pluriel: "médailles d'or" },
+      },
     },
     saisons: {
       hiver: "Hiver",

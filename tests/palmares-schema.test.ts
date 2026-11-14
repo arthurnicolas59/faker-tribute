@@ -43,6 +43,7 @@ describe("le schéma d'une catégorie du Palmarès", () => {
     ["un lieu vide", { ...worlds, victoires: [{ annee: 2013, lieu: " " }] }],
     ["la même victoire deux fois", { ...worlds, victoires: [{ annee: 2013 }, { annee: 2013 }] }],
     ["un titre LCK sans saison", { ...lck, victoires: [{ annee: 2015 }] }],
+    ["une saison hors de la LCK", { ...worlds, victoires: [{ annee: 2013, saison: "ete" }] }],
     ["une saison inconnue", { ...lck, victoires: [{ annee: 2015, saison: "automne" }] }],
     [
       "le même titre LCK deux fois",
