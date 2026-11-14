@@ -24,11 +24,14 @@
   /* Tailles fluides : lisibles dès 360 px, sans débordement. */
   --taille-geant: clamp(3.5rem, 20vw, 15rem);
   --taille-surtitre: clamp(0.75rem, 3.2vw, 1.125rem);
+  --taille-titre-section: clamp(2rem, 8vw, 3.25rem);
+  --taille-titre-etape: clamp(1.25rem, 5vw, 1.625rem);
   --taille-texte: clamp(1rem, 2.6vw, 1.125rem);
   --taille-petit: 0.875rem;
 
   /* Mise en page. */
   --largeur-contenu: 60rem;
+  --largeur-texte: 40rem;
   --marge-laterale: clamp(1rem, 5vw, 3rem);
 
   color-scheme: dark;
