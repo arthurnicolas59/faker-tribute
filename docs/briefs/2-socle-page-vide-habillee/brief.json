@@ -1,0 +1,77 @@
+{
+  "titre": "Socle : la page vide mais habillée",
+  "ticket": 2,
+  "ticket_url": "https://github.com/arthurnicolas59/faker-tribute/issues/2",
+  "date": "2026-11-14",
+  "branche": "ticket/2-socle-page-vide-habillee",
+  "objectif": "Le site hommage à Faker n'existait pas encore. Il a maintenant sa page d'accueil en rouge, noir et or, prête à recevoir le Parcours, le Palmarès et les Moments mythiques.",
+  "changements": [
+    "La page s'ouvre sur le nom de Faker en très grand, son surnom et une phrase d'accroche",
+    "Le style sombre rouge, noir et or est posé une fois pour toute la page",
+    "La Mention site de fan s'affiche en bas de page",
+    "La page tient sur un téléphone de 360 px de large, sans défiler de côté",
+    "Netlify sait comment fabriquer et publier le site"
+  ],
+  "avant_apres": {
+    "texte": {
+      "avant": "Le projet ne contenait aucune page : il n'y avait rien à ouvrir.",
+      "apres": "Une page d'accueil en français. Captures dans le dossier du brief : apres-page-ordinateur.png et apres-page-telephone.png (360 px)."
+    }
+  },
+  "fiabilite": {
+    "tests": "6 tests passent, tous nouveaux : langue, titre unique, En-tête, Mention site de fan, absence d'images",
+    "relecture": "Deux tours de relecture indépendante : six remarques corrigées. Quelques avis mineurs restent, listés dans la pull request.",
+    "risque": "faible",
+    "risque_detail": "Premier socle d'un site statique : rien d'existant ne change, ni données ni comptes. Annuler la pull request suffit."
+  },
+  "choix": "Le site utilise la dernière version d'Astro, l'outil qui fabrique les pages, plutôt qu'une version plus ancienne. L'ancienne avait des failles de sécurité connues. La contrepartie : il faut au moins la version 22.23.4 de Node, le moteur qui fait tourner Astro. GitHub et Netlify prennent normalement la plus récente, mais il faut le vérifier au premier passage. Les polices sont celles déjà installées sur l'appareil du visiteur : rien à télécharger, la page s'ouvre plus vite. En contrepartie, le titre change un peu d'allure d'un téléphone à l'autre.",
+  "a_decider": "Merger la pull request pour poser le socle du site. Relisez la phrase d'accroche et la Mention site de fan : je les ai rédigées moi-même.",
+  "essayer": "Dans le dossier du ticket, lancez « npm ci » puis « npm run dev », et ouvrez localhost:4321. Réduisez la fenêtre à la largeur d'un téléphone : « FAKER » tient sur une ligne et rien ne défile de côté.",
+  "criteres": [
+    {
+      "critere": "Le projet Astro est créé et package.json expose lint, typecheck (astro check), test (Vitest, sans mode watch) et build.",
+      "preuve": "Les checks lancent ces quatre commandes et passent"
+    },
+    {
+      "critere": "scripts/checks.sh passe en local, et le job checks de GitHub passe sur la pull request.",
+      "preuve": "Checks passés en local ; le job GitHub est vérifié à l'ouverture de la pull request"
+    },
+    {
+      "critere": "La page déclare lang=\"fr\", a un titre d'onglet et une meta description, et contient un seul <h1> (le nom de Faker), avec le surnom et une accroche.",
+      "preuve": "Tests : langue, titre d'onglet, description, un seul grand titre « Faker », surnom et accroche dans l'En-tête"
+    },
+    {
+      "critere": "Les couleurs (rouge, noir et or) et la typographie sont définies une seule fois et réutilisables par les Sections suivantes.",
+      "preuve": "Relecture : un seul fichier de style commun définit couleurs, polices et tailles"
+    },
+    {
+      "critere": "Le pied de page affiche la Mention site de fan : site non officiel, sans lien avec Riot Games ni avec T1.",
+      "preuve": "Test : le pied de page est le dernier élément et cite « non officiel », Riot Games et T1"
+    },
+    {
+      "critere": "Aucune image copiée dans le projet ni dans la page.",
+      "preuve": "Tests : aucune image dans la page, aucun fichier image dans le projet"
+    },
+    {
+      "critere": "La page s'affiche sans défilement horizontal dès 360 px de large.",
+      "preuve": "Capture à 360 px : apres-page-telephone.png"
+    },
+    {
+      "critere": "La configuration Netlify (commande de build et dossier publié) est dans le repo.",
+      "preuve": "Fichier netlify.toml : commande npm run build, dossier dist"
+    },
+    {
+      "critere": "Un test rend la page complète et vérifie la langue, le <h1> unique, l'En-tête et la Mention site de fan.",
+      "preuve": "Test de la page rendue, réutilisable par les Sections suivantes"
+    }
+  ],
+  "fichiers": {
+    "src/pages/index.astro": "La page unique du site",
+    "src/components/EnTete.astro": "Le nom, le surnom et l'accroche en haut de page",
+    "src/components/PiedDePage.astro": "Le bas de page avec la Mention site de fan",
+    "src/data/site.ts": "Les textes fixes de la page, à part du code",
+    "src/styles/global.css": "Les couleurs et les polices, définies une seule fois",
+    "tests/page.test.ts": "Vérifie la page telle que le visiteur la reçoit",
+    "netlify.toml": "Dit à Netlify comment fabriquer et publier le site"
+  }
+}
