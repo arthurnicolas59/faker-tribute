@@ -1,0 +1,67 @@
+{
+  "titre": "Le Parcours",
+  "ticket": 4,
+  "ticket_url": "https://github.com/arthurnicolas59/faker-tribute/issues/4",
+  "date": "2026-11-14",
+  "branche": "ticket/4-parcours",
+  "objectif": "La page s'arrêtait sur le nom de Faker : le visiteur n'apprenait rien de son histoire. Il lit maintenant son Parcours de 2013 à 2026, en sept étapes et en deux minutes environ.",
+  "changements": [
+    "La Section « Le Parcours » s'affiche juste après l'En-tête",
+    "Sept étapes datées, de ses débuts en 2013 à la saison 2026",
+    "Les faits de 2026 (MSI, Worlds, contrat) ont été vérifiés le 14 novembre 2026",
+    "Le texte se corrige dans un seul fichier, sans toucher au reste",
+    "Une faute dans ce fichier bloque la mise en ligne, au lieu de publier une étape en moins"
+  ],
+  "avant_apres": {
+    "ecrans": [
+      {
+        "nom": "Ordinateur",
+        "avant": "avant-page-ordinateur.png",
+        "apres": "apres-page-ordinateur.png"
+      },
+      {
+        "nom": "Téléphone (360 px)",
+        "avant": "avant-page-telephone.png",
+        "apres": "apres-page-telephone.png"
+      }
+    ]
+  },
+  "fiabilite": {
+    "tests": "22 tests passent, dont 16 nouveaux sur le Parcours",
+    "relecture": "Deux tours de relecture indépendante : formulations inexactes et étape qui pouvait disparaître, corrigées. Deux avis mineurs restent.",
+    "risque": "faible",
+    "risque_detail": "Une Section ajoutée : rien d'existant ne change. Une faute dans le texte bloque la publication. Annuler la pull request suffit."
+  },
+  "choix": "Le texte vit dans un seul fichier, une étape par paragraphe, comme une fiche à remplir. L'outil de lecture fourni par Astro (l'outil qui fabrique le site) a été écarté : sur une faute de frappe, il sautait l'étape sans prévenir, et le site partait en ligne incomplet. Un petit lecteur maison refuse au contraire toute erreur et arrête la fabrication. La contrepartie : pendant que vous modifiez le texte en local, il faut peut-être relancer l'aperçu pour voir la correction. Le site en ligne n'est pas concerné.",
+  "a_decider": "Relisez les sept étapes du Parcours : je les ai rédigées moi-même, à partir de faits publics. Puis mergez la pull request pour les mettre en ligne.",
+  "essayer": "Lancez « npm run dev » et ouvrez l'adresse affichée. Sous le nom de Faker, le Parcours montre sept étapes. À largeur de téléphone, rien ne dépasse.",
+  "criteres": [
+    {
+      "critere": "La Section Parcours apparaît après l'En-tête, avec son propre titre.",
+      "preuve": "Test : la Section vient juste après l'En-tête, avec son titre « Le Parcours »"
+    },
+    {
+      "critere": "Le texte est rangé dans une collection de contenu validée par un schéma : une donnée invalide fait échouer le build.",
+      "preuve": "Tests : le schéma refuse un titre vide ou une année invalide, la lecture refuse une étape en double. Une année 1999 arrête le build."
+    },
+    {
+      "critere": "Le texte est en français, court (lisible en quelques minutes) et couvre la période de 2013 à aujourd'hui. Les faits récents ont été vérifiés.",
+      "preuve": "Test : 300 à 650 mots, de 2013 à 2026. Faits de 2026 vérifiés par recherche le 14 novembre 2026, faits anciens relus deux fois."
+    },
+    {
+      "critere": "La Section est lisible sur téléphone (360 px) comme sur ordinateur.",
+      "preuve": "Captures : apres-page-telephone.png (360 px) et apres-page-ordinateur.png"
+    },
+    {
+      "critere": "Un test sur la page rendue vérifie que le Parcours est présent, avec son titre, et placé après l'En-tête.",
+      "preuve": "Test : « la Section Parcours est la première Section de <main>, après l'En-tête, avec son titre <h2> »"
+    }
+  ],
+  "fichiers": {
+    "src/content/parcours.yaml": "Le texte du Parcours, une étape par entrée : c'est le fichier à modifier pour corriger le texte",
+    "src/components/Parcours.astro": "Affiche la Section Parcours, étapes rangées par année",
+    "src/data/charger-parcours.ts": "Lit le fichier du Parcours et refuse toute erreur",
+    "src/data/parcours-schema.ts": "Dit ce qu'une étape doit contenir : année, titre, texte",
+    "tests/global-setup.ts": "Prépare le contenu avant les tests"
+  }
+}
