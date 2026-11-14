@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Socle : la page vide mais habillée</title>
+<style>
+  :root {
+    --bg: #ffffff; --text: #16191d; --body: #2b3036; --muted: #6a717a; --rule: #d5d9de; --hair: #e8ebee;
+    --ink: #0d2240;
+    --low: #2e7d4f; --medium: #b06f00; --high: #b3261e;
+    --added: #2e7d4f; --modified: #0d2240; --deleted: #b3261e; --renamed: #6a717a;
+  }
+  @page { size: A4; margin: 18mm 17mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--body);
+    font: 13.5px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 28px 40px; }
+  @media print { main { padding: 0; max-width: none; } }
+  @media (max-width: 600px) { main { padding: 28px 16px 32px; } }
+  p { margin: 0; }
+  .label, h2, th {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* En-tête */
+  .masthead { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 2.5px solid var(--ink); }
+  .masthead a { color: inherit; text-decoration: none; }
+  h1 { color: var(--text); font-size: 26px; line-height: 1.2; font-weight: 650; letter-spacing: -0.01em; margin: 22px 0 10px; }
+  .objectif { font-size: 15.5px; line-height: 1.55; color: var(--body); max-width: 680px; }
+  .revision { margin-top: 10px; padding-left: 10px; border-left: 2.5px solid var(--ink); max-width: 680px; }
+  .revision .label { margin-right: 6px; }
+
+  /* Synthèse : décision et risque */
+  .summary { display: grid; grid-template-columns: 1fr 180px; margin: 24px 0 8px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .summary > div { padding: 12px 0; }
+  .summary > div + div { border-left: 1px solid var(--rule); padding-left: 18px; }
+  .summary .value { color: var(--text); font-size: 14.5px; font-weight: 600; margin-top: 3px; }
+  .dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; vertical-align: 1px; }
+  .dot.low { background: var(--low); } .dot.medium { background: var(--medium); } .dot.high { background: var(--high); }
+  @media (max-width: 600px) {
+    .summary { grid-template-columns: 1fr; }
+    .summary > div + div { border-left: 0; border-top: 1px solid var(--hair); padding-left: 0; }
+  }
+
+  /* Sections : intitulé à gauche, contenu à droite */
+  .row { display: grid; grid-template-columns: 132px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; }
+  .row:last-of-type { border-bottom: 0; }
+  h2 { margin: 2px 0 0; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; gap: 8px; } }
+
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: c; }
+  ol li { counter-increment: c; display: grid; grid-template-columns: 22px 1fr; margin-bottom: 5px; }
+  ol li:last-child { margin-bottom: 0; }
+  ol li::before { content: counter(c) "."; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .pair { margin-bottom: 14px; } .pair:last-child { margin-bottom: 0; }
+  .pair-name { color: var(--text); font-weight: 600; margin-bottom: 8px; }
+  .pair-images, .text-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .arrow { display: none; }
+  figure { margin: 0; min-width: 0; display: flex; flex-direction: column-reverse; }
+  figure img { display: block; width: 100%; max-height: 230px; object-fit: contain; object-position: top left; border: 1px solid var(--rule); background: #fafbfc; }
+  figcaption { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .text-box { border-top: 2px solid var(--rule); padding-top: 8px; }
+  .text-box.after { border-top-color: var(--ink); }
+  .text-box .label { margin-bottom: 4px; }
+  @media (max-width: 600px) { .pair-images, .text-pair { grid-template-columns: 1fr; } }
+
+  .facts p { display: grid; grid-template-columns: 108px 1fr; gap: 8px; margin-bottom: 4px; }
+  .facts p:last-child { margin-bottom: 0; }
+  .facts .k { color: var(--muted); }
+
+  .choix p { color: var(--body); }
+
+  /* Annexe */
+  .annexe { break-before: page; border-top: 2.5px solid var(--ink); padding-top: 18px; }
+  @media screen { .annexe { margin-top: 40px; } }
+  .annexe h2.title { font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--text); font-weight: 650; margin: 0 0 4px; }
+  .annexe .annexe-label { margin-bottom: 10px; }
+  .annexe .table-wrap + h2.title { margin-top: 28px; }
+  table.criteres td:first-child { width: 110px; }
+  .annexe .summary-line { color: var(--muted); margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; padding: 0 10px 8px 0; border-bottom: 1.5px solid var(--text); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  tr { break-inside: avoid; }
+  td:first-child { width: 96px; white-space: nowrap; color: var(--text); }
+  .status::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 7px; vertical-align: 1px; }
+  .status.added::before { background: var(--added); } .status.modified::before { background: var(--modified); }
+  .status.deleted::before { background: var(--deleted); } .status.renamed::before { background: var(--renamed); }
+  .path { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; color: var(--text); word-break: break-all; }
+  .role { color: var(--muted); margin-top: 1px; }
+  th.lines, .lines { text-align: right; padding-right: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .plus, .minus { color: var(--muted); }
+  .more { color: var(--muted); font-style: italic; }
+
+  footer { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--rule); }
+</style>
+</head>
+<body>
+<main>
+  <div class="masthead label"><span>Brief d'évolution · <a href="https://github.com/arthurnicolas59/faker-tribute/issues/2">Ticket #2</a></span><span>14 novembre 2026</span></div>
+  <h1>Socle : la page vide mais habillée</h1>
+  <p class="objectif">Le site hommage à Faker n&#x27;existait pas encore. Il a maintenant sa page d&#x27;accueil en rouge, noir et or, prête à recevoir le Parcours, le Palmarès et les Moments mythiques.</p>
+
+
+  <div class="summary">
+    <div><p class="label">Décision attendue</p><p class="value">Merger la pull request pour poser le socle du site. Relisez la phrase d&#x27;accroche et la Mention site de fan : je les ai rédigées moi-même.</p></div>
+    <div><p class="label">Risque</p><p class="value"><span class="dot low"></span>Faible</p></div>
+  </div>
+
+  <section class="row"><h2>Avant / après</h2><div>
+<div class="text-pair"><div class="text-box"><p class="label">Avant</p><p>Le projet ne contenait aucune page : il n&#x27;y avait rien à ouvrir.</p></div><span class="arrow" aria-hidden="true">→</span><div class="text-box after"><p class="label">Après</p><p>Une page d&#x27;accueil en français. Captures dans le dossier du brief : apres-page-ordinateur.png et apres-page-telephone.png (360 px).</p></div></div>
+  </div></section>
+
+  <section class="row"><h2>Ce qui change</h2><ol>
+<li>La page s&#x27;ouvre sur le nom de Faker en très grand, son surnom et une phrase d&#x27;accroche</li>
+<li>Le style sombre rouge, noir et or est posé une fois pour toute la page</li>
+<li>La Mention site de fan s&#x27;affiche en bas de page</li>
+<li>La page tient sur un téléphone de 360 px de large, sans défiler de côté</li>
+<li>Netlify sait comment fabriquer et publier le site</li>
+  </ol></section>
+
+  <section class="row"><h2>Fiabilité</h2><div class="facts">
+    <p><span class="k">Tests</span><span>6 tests passent, tous nouveaux : langue, titre unique, En-tête, Mention site de fan, absence d&#x27;images</span></p>
+    <p><span class="k">Checks</span><span>Passés sur cette version (d4a39d3)</span></p>
+    <p><span class="k">Critères</span><span>9 sur 9 prouvés (voir l&#x27;annexe)</span></p>
+    <p><span class="k">Tests existants</span><span>Aucun supprimé ni modifié</span></p>
+    <p><span class="k">Relecture</span><span>Deux tours de relecture indépendante : six remarques corrigées. Quelques avis mineurs restent, listés dans la pull request.</span></p>
+    <p><span class="k">Risque</span><span>Premier socle d&#x27;un site statique : rien d&#x27;existant ne change, ni données ni comptes. Annuler la pull request suffit.</span></p>
+  </div></section>
+
+  <section class="row choix"><h2>Choix effectués</h2><p>Le site utilise la dernière version d&#x27;Astro, l&#x27;outil qui fabrique les pages, plutôt qu&#x27;une version plus ancienne. L&#x27;ancienne avait des failles de sécurité connues. La contrepartie : il faut au moins la version 22.23.4 de Node, le moteur qui fait tourner Astro. GitHub et Netlify prennent normalement la plus récente, mais il faut le vérifier au premier passage. Les polices sont celles déjà installées sur l&#x27;appareil du visiteur : rien à télécharger, la page s&#x27;ouvre plus vite. En contrepartie, le titre change un peu d&#x27;allure d&#x27;un téléphone à l&#x27;autre.</p></section>
+  <section class="row"><h2>Pour l'essayer</h2><p>Dans le dossier du ticket, lancez « npm ci » puis « npm run dev », et ouvrez localhost:4321. Réduisez la fenêtre à la largeur d&#x27;un téléphone : « FAKER » tient sur une ligne et rien ne défile de côté.</p></section>
+<section class="annexe">
+<p class="label annexe-label">Annexe</p>
+<h2 class="title">Les critères du ticket</h2>
+<p class="summary-line">Pour chaque critère d'acceptation, le test ou la capture qui le prouve.</p>
+<div class="table-wrap"><table class="criteres"><thead><tr><th>État</th><th>Critère</th></tr></thead><tbody>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Le projet Astro est créé et package.json expose lint, typecheck (astro check), test (Vitest, sans mode watch) et build.</p><p class="role">Les checks lancent ces quatre commandes et passent</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>scripts/checks.sh passe en local, et le job checks de GitHub passe sur la pull request.</p><p class="role">Checks passés en local ; le job GitHub est vérifié à l&#x27;ouverture de la pull request</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>La page déclare lang=&quot;fr&quot;, a un titre d&#x27;onglet et une meta description, et contient un seul &lt;h1&gt; (le nom de Faker), avec le surnom et une accroche.</p><p class="role">Tests : langue, titre d&#x27;onglet, description, un seul grand titre « Faker », surnom et accroche dans l&#x27;En-tête</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Les couleurs (rouge, noir et or) et la typographie sont définies une seule fois et réutilisables par les Sections suivantes.</p><p class="role">Relecture : un seul fichier de style commun définit couleurs, polices et tailles</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Le pied de page affiche la Mention site de fan : site non officiel, sans lien avec Riot Games ni avec T1.</p><p class="role">Test : le pied de page est le dernier élément et cite « non officiel », Riot Games et T1</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Aucune image copiée dans le projet ni dans la page.</p><p class="role">Tests : aucune image dans la page, aucun fichier image dans le projet</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>La page s&#x27;affiche sans défilement horizontal dès 360 px de large.</p><p class="role">Capture à 360 px : apres-page-telephone.png</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>La configuration Netlify (commande de build et dossier publié) est dans le repo.</p><p class="role">Fichier netlify.toml : commande npm run build, dossier dist</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Un test rend la page complète et vérifie la langue, le &lt;h1&gt; unique, l&#x27;En-tête et la Mention site de fan.</p><p class="role">Test de la page rendue, réutilisable par les Sections suivantes</p></td></tr>
+</tbody></table></div>
+
+<h2 class="title">Les fichiers touchés</h2>
+<p class="summary-line">18 fichiers : 18 créés.</p>
+<div class="table-wrap"><table><thead><tr><th>Statut</th><th>Fichier</th><th class="lines">Lignes</th></tr></thead><tbody>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">.gitignore</p></td><td class="lines"><span class="plus">+9</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">.nvmrc</p></td><td class="lines"><span class="plus">+1</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">astro.config.mjs</p></td><td class="lines"><span class="plus">+5</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">eslint.config.js</p></td><td class="lines"><span class="plus">+11</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">netlify.toml</p><p class="role">Dit à Netlify comment fabriquer et publier le site</p></td><td class="lines"><span class="plus">+7</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">package-lock.json</p></td><td class="lines"><span class="plus">+6605</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">package.json</p></td><td class="lines"><span class="plus">+31</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/components/EnTete.astro</p><p class="role">Le nom, le surnom et l&#x27;accroche en haut de page</p></td><td class="lines"><span class="plus">+76</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/components/PiedDePage.astro</p><p class="role">Le bas de page avec la Mention site de fan</p></td><td class="lines"><span class="plus">+23</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/data/site.ts</p><p class="role">Les textes fixes de la page, à part du code</p></td><td class="lines"><span class="plus">+28</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/layouts/PageDeBase.astro</p></td><td class="lines"><span class="plus">+19</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/pages/index.astro</p><p class="role">La page unique du site</p></td><td class="lines"><span class="plus">+9</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/styles/global.css</p><p class="role">Les couleurs et les polices, définies une seule fois</p></td><td class="lines"><span class="plus">+80</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/helpers/render-page.ts</p></td><td class="lines"><span class="plus">+18</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/page.test.ts</p><p class="role">Vérifie la page telle que le visiteur la reçoit</p></td><td class="lines"><span class="plus">+49</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/sans-images.test.ts</p></td><td class="lines"><span class="plus">+38</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tsconfig.json</p></td><td class="lines"><span class="plus">+5</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">vitest.config.ts</p></td><td class="lines"><span class="plus">+8</span> <span class="minus">−0</span></td></tr>
+</tbody></table></div>
+</section>
+  <footer><span>Branche ticket/2-socle-page-vide-habillee</span><span>an-forge</span></footer>
+</main>
+</body>
+</html>

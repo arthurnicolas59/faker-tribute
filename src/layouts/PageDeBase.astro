@@ -1,0 +1,19 @@
+---
+import "../styles/global.css";
+import { textesDuSite } from "../data/site";
+import PiedDePage from "../components/PiedDePage.astro";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={textesDuSite.description} />
+    <title>{textesDuSite.titreOnglet}</title>
+  </head>
+  <body>
+    <slot />
+    <PiedDePage />
+  </body>
+</html>
