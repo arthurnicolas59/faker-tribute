@@ -1,0 +1,32 @@
+# Les checks du projet, relancés par GitHub sur chaque pull request, sur une machine neutre.
+# Posé par /project-init (an-forge). Le nom du job, « checks », est celui que la protection de main exige :
+# ne le renomme pas.
+#
+# À REMPLIR : ajoute, à l'endroit indiqué plus bas, l'installation des outils dont scripts/checks.sh a besoin.
+# C'est /project-init qui le fait si le projet a déjà du code, sinon /project-launch, une fois la stack choisie.
+# Par exemple, pour Node :
+#
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 22
+#           cache: npm
+name: checks
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      # L'installation des outils du projet va ici.
+      - run: bash scripts/checks.sh
