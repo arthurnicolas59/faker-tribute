@@ -34,7 +34,7 @@
   },
   "choix": "Les 5 vidéos viennent toutes de LoL Esports, la chaîne officielle des compétitions. Chaque vidéo a été vérifiée auprès de YouTube : elle existe, vient de LoL Esports et accepte d'être affichée sur un autre site. L'autre option était des vidéos de fans, plus précises sur certaines actions. Elles ont été écartées, car le ticket exige des chaînes officielles et ces vidéos peuvent disparaître. La contrepartie : la vidéo de 2013 présente la rivalité Faker–Ryu, celle de 2016 analyse la finale, et celles de 2023 à 2025 résument toute la finale. Les captures montrent des cadres vides : les vidéos ne se chargent qu'à l'approche.",
   "a_decider": "Valider la liste des 5 Moments. Seuls 2 sont des actions de jeu (le duel de 2013, le Galio de 2024) ; les 3 autres sont des finales gagnées. Puis merger.",
-  "essayer": "Lancez « npm run dev », descendez sous le Palmarès et lancez les 5 vidéos : chacune se lit dans la page. À la largeur d'un téléphone, rien ne déborde.",
+  "essayer": "Ouvrez https://deploy-preview-11--faker-tribute.netlify.app, descendez sous le Palmarès et lancez les 5 vidéos. Sur téléphone, rien ne déborde.",
   "criteres": [
     {
       "critere": "La Section Moments mythiques apparaît après le Palmarès s'il existe, avec son propre titre.",
