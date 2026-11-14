@@ -32,6 +32,7 @@ describe("le rangement des Moments mythiques", () => {
 describe("la date lisible d'un Moment", () => {
   it("écrit la date en français, sans décalage de fuseau horaire", () => {
     expect(dateLisible("2013-08-31")).toBe("31 août 2013");
-    expect(dateLisible("2025-01-01")).toBe("1 janvier 2025");
+    expect(dateLisible("2025-01-01")).toBe("1er janvier 2025");
+    expect(dateLisible("2025-01-02")).toBe("2 janvier 2025");
   });
 });

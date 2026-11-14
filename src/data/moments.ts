@@ -13,6 +13,6 @@ const formatDate = new Intl.DateTimeFormat("fr-FR", {
   timeZone: "UTC",
 });
 
-/** Écrit une date AAAA-MM-JJ en français : « 31 août 2013 ». */
+/** Écrit une date AAAA-MM-JJ en français : « 31 août 2013 », « 1er janvier 2025 ». */
 export const dateLisible = (date: string): string =>
-  formatDate.format(new Date(`${date}T12:00:00Z`));
+  formatDate.format(new Date(`${date}T12:00:00Z`)).replace(/^1 /, "1er ");
