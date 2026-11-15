@@ -1,0 +1,71 @@
+{
+  "titre": "Les animations",
+  "ticket": 7,
+  "ticket_url": "https://github.com/arthurnicolas59/faker-tribute/issues/7",
+  "date": "2026-11-15",
+  "branche": "ticket/7-animations",
+  "objectif": "La page s'affichait d'un bloc, sans mouvement, alors que la spec voulait une découverte vivante. Les Sections apparaissent maintenant en fondu, et les chiffres du Palmarès comptent jusqu'à leur total.",
+  "changements": [
+    "Chaque Section apparaît en fondu quand on l'atteint en faisant défiler la page",
+    "Chaque chiffre du Palmarès compte de 0 à son total en une seconde, quand il arrive à l'écran",
+    "Avec « réduire les animations » activé sur l'appareil, tout s'affiche directement, sans mouvement",
+    "Sans JavaScript, ou à l'impression, tout le contenu reste visible"
+  ],
+  "avant_apres": {
+    "ecrans": [
+      {
+        "nom": "Palmarès, un quart de seconde après l'arrivée",
+        "avant": "avant-palmares.png",
+        "apres": "apres-palmares-en-cours.png"
+      },
+      {
+        "nom": "Palmarès avec « réduire les animations »",
+        "avant": "avant-palmares.png",
+        "apres": "apres-palmares-animations-reduites.png"
+      }
+    ]
+  },
+  "fiabilite": {
+    "tests": "94 tests passent, dont 7 nouveaux sur les animations",
+    "relecture": "Deux relectures indépendantes. Trois défauts corrigés (compteur trop tôt, clignotement, impression vide). 3 remarques mineures restent.",
+    "risque": "faible",
+    "risque_detail": "Ajout isolé : un petit script et deux règles de style. Rien d'existant ne change. Retirer le script suffit à tout annuler."
+  },
+  "choix": "Le HTML envoyé au visiteur montre toujours tout : les vrais chiffres, toutes les Sections. C'est le petit script du navigateur qui cache puis révèle, et seulement s'il tourne et que l'appareil accepte les animations. L'autre option, cacher par défaut et laisser le script révéler, aurait laissé une page vide si le script échouait. La contrepartie : une Section déjà visible au chargement, comme l'En-tête, ne fait pas de fondu. Cela évite qu'elle disparaisse puis revienne. Aucune bibliothèque n'a été ajoutée : une cinquantaine de lignes suffisent.",
+  "a_decider": "Merger la pull request. Point mineur ouvert : pendant la seconde où un chiffre compte, un lecteur d'écran peut lire un chiffre intermédiaire.",
+  "essayer": "Rechargez le site en haut, puis défilez lentement jusqu'au Palmarès : chaque chiffre compte en arrivant. Avec « Réduire les animations » activé, tout s'affiche d'emblée.",
+  "criteres": [
+    {
+      "critere": "Les Sections apparaissent en fondu au défilement.",
+      "preuve": "Test : une Section plus bas est cachée puis révélée à son arrivée. Capture : le Palmarès est encore pâle juste après l'arrivée."
+    },
+    {
+      "critere": "Les chiffres du Palmarès défilent jusqu'à leur total à leur apparition.",
+      "preuve": "Tests : le compteur part de 0, finit au total, et démarre quand le chiffre arrive à l'écran. Capture : 4, 1, 7, 1 en cours."
+    },
+    {
+      "critere": "Sous prefers-reduced-motion: reduce, il n'y a ni fondu ni compteur : le contenu s'affiche directement.",
+      "preuve": "Test : sous « réduire les animations », le script ne cache rien et ne lance rien. Capture : chiffres finaux d'emblée."
+    },
+    {
+      "critere": "Sans JavaScript, toutes les Sections et tous les chiffres finaux sont visibles (aucun contenu caché par défaut dans le HTML).",
+      "preuve": "Test sur la page rendue : aucune Section n'est masquée, et les chiffres finaux sont dans le HTML."
+    },
+    {
+      "critere": "Aucune bibliothèque d'animation lourde n'est ajoutée.",
+      "preuve": "Annexe : aucune dépendance ajoutée, la liste des paquets n'est pas modifiée"
+    },
+    {
+      "critere": "Un test sur la page rendue vérifie que les chiffres finaux sont présents dans le HTML et qu'aucune Section n'est masquée par défaut.",
+      "preuve": "Test : les chiffres 6, 2, 10 et 2 sont dans le HTML, et les 4 Sections n'ont aucun attribut ni classe de masquage"
+    }
+  ],
+  "fichiers": {
+    "src/scripts/animations.ts": "Le petit script du fondu et du compteur, coupé si l'appareil demande moins d'animations",
+    "src/styles/global.css": "Le fondu des Sections, seulement à l'écran et quand le script l'active",
+    "src/components/Palmares.astro": "Chaque chiffre porte son total, pour que le compteur sache où s'arrêter",
+    "src/layouts/PageDeBase.astro": "Charge le script dans la page",
+    "tests/initialiser-animations.test.ts": "Vérifie quand le script cache, révèle et lance les compteurs",
+    "tests/page-animations.test.ts": "Vérifie que la page envoyée ne cache rien"
+  }
+}
