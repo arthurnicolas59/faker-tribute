@@ -4,13 +4,14 @@ import {
   DUREE_APPARITION_LETTRE_S,
   DUREE_MAX_NOM_S,
   delaisApparition,
-} from "../src/scripts/delais-lettres";
+  lettresDuNom,
+} from "../src/data/nom-anime";
 import { renderPage } from "./helpers/render-page";
 
 describe("delaisApparition", () => {
   it("donne un délai croissant par lettre, à partir de 0", () => {
     const delais = delaisApparition(5);
-    expect(delais).toHaveLength(5);
+    expect(delais).toHaveLength(lettresDuNom(textesDuSite.enTete.nom).length);
     expect(delais[0]).toBe(0);
     for (let i = 1; i < delais.length; i++) {
       expect(delais[i]).toBeGreaterThan(delais[i - 1]);
@@ -30,15 +31,15 @@ describe("delaisApparition", () => {
 });
 
 describe("le nom animé dans l'En-tête", () => {
-  it("est annoncé comme un seul mot « Faker » par le h1", async () => {
+  it("est annoncé comme un seul mot, le nom entier, par le h1", async () => {
     const page = await renderPage();
-    expect(page.querySelector("h1")?.getAttribute("aria-label")).toBe("Faker");
+    expect(page.querySelector("h1")?.getAttribute("aria-label")).toBe(textesDuSite.enTete.nom);
   });
 
   it("rend chaque lettre dans un span séparé, caché aux lecteurs d'écran", async () => {
     const page = await renderPage();
     const lettres = page.querySelectorAll("h1 .lettre");
-    expect(lettres.map((l) => l.textContent)).toEqual([...textesDuSite.enTete.nom]);
+    expect(lettres.map((l) => l.textContent)).toEqual(lettresDuNom(textesDuSite.enTete.nom));
     for (const lettre of lettres) {
       expect(lettre.getAttribute("aria-hidden")).toBe("true");
     }
@@ -50,7 +51,7 @@ describe("le nom animé dans l'En-tête", () => {
       const m = /--delai:\s*([\d.]+)s/.exec(l.getAttribute("style") ?? "");
       return Number(m?.[1]);
     });
-    expect(delais).toHaveLength(5);
+    expect(delais).toHaveLength(lettresDuNom(textesDuSite.enTete.nom).length);
     expect(delais.every((d) => Number.isFinite(d))).toBe(true);
     for (let i = 1; i < delais.length; i++) {
       expect(delais[i]).toBeGreaterThan(delais[i - 1]);
@@ -65,5 +66,12 @@ describe("le nom animé dans l'En-tête", () => {
     for (const lettre of page.querySelectorAll("h1 .lettre")) {
       expect(lettre.getAttribute("style") ?? "").not.toMatch(/opacity|visibility|display/);
     }
+  });
+});
+
+describe("lettresDuNom", () => {
+  it("découpe le nom en lettres affichées, accents composés compris", () => {
+    expect(lettresDuNom("Faker")).toEqual(["F", "a", "k", "e", "r"]);
+    expect(lettresDuNom("Fée")).toEqual(["F", "é", "e"]);
   });
 });
