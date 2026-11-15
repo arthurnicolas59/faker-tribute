@@ -34,7 +34,7 @@
   },
   "choix": "Tout passe par la feuille de style, sans programme qui tourne dans la page : le nom reste visible même si le navigateur bloque les scripts. Pour les lecteurs d'écran, chaque lettre est cachée et le titre porte une étiquette « Faker », comme une plaque sur une porte. L'autre option, un mot caché en double, aurait fait lire « FakerFaker » à un test existant. La contrepartie : quelques lecteurs d'écran anciens gèrent mal ces étiquettes sur un titre. La lueur pulse en continu, même quand on a défilé plus bas ; si un vieux téléphone saccade, on pourra l'arrêter hors de l'écran.",
   "a_decider": "Merger la pull request. Le rendu avec un vrai lecteur d'écran et sur un vieux téléphone n'a pas été essayé : voir « Essayer ».",
-  "essayer": "Ouvrez la page : les lettres apparaissent, puis la lueur respire. Sur iPhone, VoiceOver doit dire « Faker » d'un mot. Avec « Réduire les animations », le nom s'affiche d'un coup.",
+  "essayer": "Ouvrez https://deploy-preview-14--faker-tribute.netlify.app : les lettres apparaissent, puis la lueur respire. Sur iPhone, VoiceOver doit dire « Faker » d'un mot.",
   "criteres": [
     {
       "critere": "À l'ouverture de la page, les lettres de « Faker » apparaissent l'une après l'autre, et le nom est entièrement visible en 1,5 seconde au plus.",
