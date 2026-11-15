@@ -33,7 +33,7 @@
   },
   "choix": "Le HTML envoyé au visiteur montre toujours tout : les vrais chiffres, toutes les Sections. C'est le petit script du navigateur qui cache puis révèle, et seulement s'il tourne et que l'appareil accepte les animations. L'autre option, cacher par défaut et laisser le script révéler, aurait laissé une page vide si le script échouait. La contrepartie : une Section déjà visible au chargement, comme l'En-tête, ne fait pas de fondu. Cela évite qu'elle disparaisse puis revienne. Aucune bibliothèque n'a été ajoutée : une cinquantaine de lignes suffisent.",
   "a_decider": "Merger la pull request. Point mineur ouvert : pendant la seconde où un chiffre compte, un lecteur d'écran peut lire un chiffre intermédiaire.",
-  "essayer": "Rechargez le site en haut, puis défilez lentement jusqu'au Palmarès : chaque chiffre compte en arrivant. Avec « Réduire les animations » activé, tout s'affiche d'emblée.",
+  "essayer": "Ouvrez https://deploy-preview-12--faker-tribute.netlify.app, puis défilez lentement jusqu'au Palmarès : chaque chiffre compte en arrivant. Avec « Réduire les animations », tout s'affiche d'emblée.",
   "criteres": [
     {
       "critere": "Les Sections apparaissent en fondu au défilement.",
