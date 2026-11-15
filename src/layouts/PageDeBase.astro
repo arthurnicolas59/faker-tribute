@@ -11,6 +11,12 @@ import PiedDePage from "../components/PiedDePage.astro";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={textesDuSite.description} />
     <title>{textesDuSite.titreOnglet}</title>
+    <script>
+      import { initialiserAnimations } from "../scripts/animations";
+
+      // Module : exécuté après le chargement du HTML, donc les Sections existent déjà.
+      initialiserAnimations();
+    </script>
   </head>
   <body>
     <slot />
