@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le nom Faker animé dans l&#x27;En-tête</title>
+<style>
+  :root {
+    --bg: #ffffff; --text: #16191d; --body: #2b3036; --muted: #6a717a; --rule: #d5d9de; --hair: #e8ebee;
+    --ink: #0d2240;
+    --low: #2e7d4f; --medium: #b06f00; --high: #b3261e;
+    --added: #2e7d4f; --modified: #0d2240; --deleted: #b3261e; --renamed: #6a717a;
+  }
+  /* Zoom : un clic sur une capture ou un schéma l'ouvre en grand */
+  figure img, pre.mermaid svg { cursor: zoom-in; }
+  .zoom { font-size: 11px; position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 3vh 3vw; background: rgba(13, 34, 64, 0.88); cursor: zoom-out; }
+  .zoom[hidden] { display: none; }
+  .zoom > * { max-width: 100%; max-height: 100%; background: #fff; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35); }
+  .zoom > svg { width: 100%; height: auto; padding: 24px; }
+  @media print { .zoom { display: none; } }
+  @page { size: A4; margin: 18mm 17mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--body);
+    font: 13.5px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 28px 40px; }
+  @media print { main { padding: 0; max-width: none; } }
+  @media (max-width: 600px) { main { padding: 28px 16px 32px; } }
+  p { margin: 0; }
+  .label, h2, th {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* En-tête */
+  .masthead { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 2.5px solid var(--ink); }
+  .masthead a { color: inherit; text-decoration: none; }
+  h1 { color: var(--text); font-size: 26px; line-height: 1.2; font-weight: 650; letter-spacing: -0.01em; margin: 22px 0 10px; }
+  .objectif { font-size: 15.5px; line-height: 1.55; color: var(--body); max-width: 680px; }
+  .revision { margin-top: 10px; padding-left: 10px; border-left: 2.5px solid var(--ink); max-width: 680px; }
+  .revision .label { margin-right: 6px; }
+
+  /* Synthèse : décision et risque */
+  .summary { display: grid; grid-template-columns: 1fr 180px; margin: 24px 0 8px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .summary > div { padding: 12px 0; }
+  .summary > div + div { border-left: 1px solid var(--rule); padding-left: 18px; }
+  .summary .value { color: var(--text); font-size: 14.5px; font-weight: 600; margin-top: 3px; }
+  .dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; vertical-align: 1px; }
+  .dot.low { background: var(--low); } .dot.medium { background: var(--medium); } .dot.high { background: var(--high); }
+  @media (max-width: 600px) {
+    .summary { grid-template-columns: 1fr; }
+    .summary > div + div { border-left: 0; border-top: 1px solid var(--hair); padding-left: 0; }
+  }
+
+  /* Sections : intitulé à gauche, contenu à droite */
+  .row { display: grid; grid-template-columns: 132px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; }
+  .row:last-of-type { border-bottom: 0; }
+  h2 { margin: 2px 0 0; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; gap: 8px; } }
+
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: c; }
+  ol li { counter-increment: c; display: grid; grid-template-columns: 22px 1fr; margin-bottom: 5px; }
+  ol li:last-child { margin-bottom: 0; }
+  ol li::before { content: counter(c) "."; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .pair { margin-bottom: 14px; } .pair:last-child { margin-bottom: 0; }
+  .pair-name { color: var(--text); font-weight: 600; margin-bottom: 8px; }
+  .pair-images, .text-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .arrow { display: none; }
+  figure { margin: 0; min-width: 0; display: flex; flex-direction: column-reverse; }
+  figure img { display: block; width: 100%; max-height: 230px; object-fit: contain; object-position: top left; border: 1px solid var(--rule); background: #fafbfc; }
+  pre.mermaid { margin: 0; padding: 10px; border: 1px solid var(--rule); background: #fafbfc; font-size: 11px; white-space: pre-wrap; overflow: hidden; }
+  pre.mermaid svg { max-width: 100%; height: auto; max-height: 120px; }
+  pre.mermaid .label, .zoom .label { text-transform: none; letter-spacing: 0; font-size: inherit; font-weight: normal; color: inherit; }
+  .pair-images.schemas { grid-template-columns: 1fr; gap: 10px; }
+  figcaption { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .text-box { border-top: 2px solid var(--rule); padding-top: 8px; }
+  .text-box.after { border-top-color: var(--ink); }
+  .text-box .label { margin-bottom: 4px; }
+  @media (max-width: 600px) { .pair-images, .text-pair { grid-template-columns: 1fr; } }
+
+  .facts p { display: grid; grid-template-columns: 108px 1fr; gap: 8px; margin-bottom: 4px; }
+  .facts p:last-child { margin-bottom: 0; }
+  .facts .k { color: var(--muted); }
+
+  .choix p { color: var(--body); }
+
+  /* Annexe */
+  .annexe { break-before: page; border-top: 2.5px solid var(--ink); padding-top: 18px; }
+  @media screen { .annexe { margin-top: 40px; } }
+  .annexe h2.title { font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--text); font-weight: 650; margin: 0 0 4px; }
+  .annexe .annexe-label { margin-bottom: 10px; }
+  .annexe .table-wrap + h2.title { margin-top: 28px; }
+  table.criteres td:first-child { width: 110px; }
+  .annexe .summary-line { color: var(--muted); margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; padding: 0 10px 8px 0; border-bottom: 1.5px solid var(--text); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  tr { break-inside: avoid; }
+  td:first-child { width: 96px; white-space: nowrap; color: var(--text); }
+  .status::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 7px; vertical-align: 1px; }
+  .status.added::before { background: var(--added); } .status.modified::before { background: var(--modified); }
+  .status.deleted::before { background: var(--deleted); } .status.renamed::before { background: var(--renamed); }
+  .path { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; color: var(--text); word-break: break-all; }
+  .role { color: var(--muted); margin-top: 1px; }
+  th.lines, .lines { text-align: right; padding-right: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .plus, .minus { color: var(--muted); }
+  .more { color: var(--muted); font-style: italic; }
+
+  footer { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--rule); }
+</style>
+</head>
+<body>
+<main>
+  <div class="masthead label"><span>Brief d'évolution · <a href="https://github.com/arthurnicolas59/faker-tribute/issues/13">Ticket #13</a></span><span>15 novembre 2026</span></div>
+  <h1>Le nom Faker animé dans l&#x27;En-tête</h1>
+  <p class="objectif">Le grand nom « Faker » en haut de page était figé. Il apparaît maintenant lettre par lettre, puis sa lueur rouge respire doucement.</p>
+
+
+  <div class="summary">
+    <div><p class="label">Décision attendue</p><p class="value">Merger la pull request. Le rendu avec un vrai lecteur d&#x27;écran et sur un vieux téléphone n&#x27;a pas été essayé : voir « Essayer ».</p></div>
+    <div><p class="label">Risque</p><p class="value"><span class="dot low"></span>Faible</p></div>
+  </div>
+
+  <section class="row"><h2>Avant / après</h2><div>
+<div class="pair"><p class="pair-name">En-tête, 0,45 s après l&#x27;ouverture</p><div class="pair-images"><figure><img src="avant-en-tete.png" alt="Avant : En-tête, 0,45 s après l&#x27;ouverture"><figcaption>Avant</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="pendant-apparition.png" alt="Après : En-tête, 0,45 s après l&#x27;ouverture"><figcaption>Après</figcaption></figure></div></div>
+<div class="pair"><p class="pair-name">Téléphone 360 px, nom affiché</p><div class="pair-images"><figure><img src="avant-en-tete-telephone.png" alt="Avant : Téléphone 360 px, nom affiché"><figcaption>Avant</figcaption></figure><span class="arrow" aria-hidden="true">→</span><figure><img src="apres-en-tete-telephone.png" alt="Après : Téléphone 360 px, nom affiché"><figcaption>Après</figcaption></figure></div></div>
+  </div></section>
+
+  <section class="row"><h2>Ce qui change</h2><ol>
+<li>À l&#x27;ouverture, les cinq lettres apparaissent l&#x27;une après l&#x27;autre ; le nom est complet en 1,2 seconde</li>
+<li>Ensuite, la lueur rouge autour du nom s&#x27;atténue puis revient, en boucle, toutes les 3,5 secondes</li>
+<li>Le nom ne bouge pas et ne change pas de taille : seules la transparence et la lueur varient</li>
+<li>Avec « réduire les animations », le nom s&#x27;affiche d&#x27;un coup, sans lueur qui pulse</li>
+<li>Un lecteur d&#x27;écran lit toujours « Faker » d&#x27;un seul mot</li>
+  </ol></section>
+
+  <section class="row"><h2>Fiabilité</h2><div class="facts">
+    <p><span class="k">Tests</span><span>106 tests passent, dont 12 nouveaux sur le nom animé</span></p>
+    <p><span class="k">Checks</span><span>Passés sur cette version (837be2f)</span></p>
+    <p><span class="k">Critères</span><span>5 sur 5 prouvés (voir l&#x27;annexe)</span></p>
+    <p><span class="k">Tests existants</span><span>Aucun supprimé ni modifié</span></p>
+    <p><span class="k">Relecture</span><span>Relu deux fois par des agents indépendants : un saut de la lueur au démarrage, corrigé avec un test, et quatre retouches.</span></p>
+    <p><span class="k">Risque</span><span>Ajout isolé dans l&#x27;En-tête : le texte du nom ne change pas, seule sa façon d&#x27;apparaître. Facile à annuler.</span></p>
+  </div></section>
+
+  <section class="row choix"><h2>Choix effectués</h2><p>Tout passe par la feuille de style, sans programme qui tourne dans la page : le nom reste visible même si le navigateur bloque les scripts. Pour les lecteurs d&#x27;écran, chaque lettre est cachée et le titre porte une étiquette « Faker », comme une plaque sur une porte. L&#x27;autre option, un mot caché en double, aurait fait lire « FakerFaker » à un test existant. La contrepartie : quelques lecteurs d&#x27;écran anciens gèrent mal ces étiquettes sur un titre. La lueur pulse en continu, même quand on a défilé plus bas ; si un vieux téléphone saccade, on pourra l&#x27;arrêter hors de l&#x27;écran.</p></section>
+  <section class="row"><h2>Pour l'essayer</h2><p>Ouvrez la page : les lettres apparaissent, puis la lueur respire. Sur iPhone, VoiceOver doit dire « Faker » d&#x27;un mot. Avec « Réduire les animations », le nom s&#x27;affiche d&#x27;un coup.</p></section>
+<section class="annexe">
+<p class="label annexe-label">Annexe</p>
+<h2 class="title">Les critères du ticket</h2>
+<p class="summary-line">Pour chaque critère d'acceptation, le test ou la capture qui le prouve.</p>
+<div class="table-wrap"><table class="criteres"><thead><tr><th>État</th><th>Critère</th></tr></thead><tbody>
+<tr><td><span class="status added">Prouvé</span></td><td><p>À l&#x27;ouverture de la page, les lettres de « Faker » apparaissent l&#x27;une après l&#x27;autre, et le nom est entièrement visible en 1,5 seconde au plus.</p><p class="role">Test : chaque lettre a un délai croissant et la dernière finit en 1,5 s au plus. Capture à 0,45 s : « FAKE » en cours d&#x27;apparition.</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Une fois le nom affiché, sa lueur rouge varie doucement en continu, sans que le nom change de place ni de taille.</p><p class="role">Test : la pulsation est infinie, part de la lueur de base et n&#x27;anime ni taille ni position.</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Avec le réglage système « réduire les animations », le nom s&#x27;affiche directement, en entier, sans apparition ni pulsation.</p><p class="role">Test : les animations n&#x27;existent que sans ce réglage, et aucune lettre n&#x27;est masquée par défaut.</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>Un lecteur d&#x27;écran annonce toujours « Faker » comme un seul mot, pas lettre par lettre.</p><p class="role">Test : le titre porte l&#x27;étiquette « Faker » et chaque lettre est cachée aux lecteurs d&#x27;écran.</p></td></tr>
+<tr><td><span class="status added">Prouvé</span></td><td><p>À 360 px de large, le nom tient sur une ligne et rien ne déborde pendant l&#x27;animation.</p><p class="role">Capture à 360 px : le nom tient sur une ligne. Test : le nom ne passe jamais à la ligne.</p></td></tr>
+</tbody></table></div>
+
+<h2 class="title">Les fichiers touchés</h2>
+<p class="summary-line">4 fichiers : 3 créés, 1 modifié.</p>
+<div class="table-wrap"><table><thead><tr><th>Statut</th><th>Fichier</th><th class="lines">Lignes</th></tr></thead><tbody>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">src/data/nom-anime.ts</p><p class="role">Calcule les lettres du nom et le délai de chacune</p></td><td class="lines"><span class="plus">+25</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/nom-anime-css.test.ts</p><p class="role">Vérifie que seules la transparence et la lueur bougent, et le réglage « réduire les animations »</p></td><td class="lines"><span class="plus">+50</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status added">Créé</span></td><td><p class="path">tests/nom-anime.test.ts</p><p class="role">Vérifie les délais, les lettres et l&#x27;étiquette pour lecteurs d&#x27;écran</p></td><td class="lines"><span class="plus">+77</span> <span class="minus">−0</span></td></tr>
+<tr><td><span class="status modified">Modifié</span></td><td><p class="path">src/components/EnTete.astro</p><p class="role">Découpe le nom en lettres et décrit l&#x27;apparition et la pulsation</p></td><td class="lines"><span class="plus">+65</span> <span class="minus">−1</span></td></tr>
+</tbody></table></div>
+</section>
+  <footer><span>Branche ticket/13-animer-nom-faker</span><span>an-forge</span></footer>
+</main>
+<div class="zoom" hidden></div>
+<script>
+  // Zoom des captures et des schémas : un clic ouvre, un clic ou Échap ferme.
+  (() => {
+    const zoom = document.querySelector(".zoom");
+    const close = () => { zoom.hidden = true; zoom.replaceChildren(); };
+    document.addEventListener("click", (e) => {
+      if (!zoom.hidden) return close();
+      const target = e.target.closest("figure img, pre.mermaid svg");
+      if (!target) return;
+      const copy = target.cloneNode(true);
+      copy.removeAttribute("style");
+      zoom.replaceChildren(copy);
+      zoom.hidden = false;
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  })();
+</script>
+<script>document.documentElement.dataset.ready = '1';</script>
+</body>
+</html>
