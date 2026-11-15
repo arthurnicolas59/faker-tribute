@@ -1,12 +1,29 @@
 ---
 import { textesDuSite } from "../data/site";
+import {
+  DUREE_APPARITION_LETTRE_S,
+  DUREE_MAX_NOM_S,
+  delaisApparition,
+  lettresDuNom,
+} from "../data/nom-anime";
 
 const { nom, surnom, accroche } = textesDuSite.enTete;
+const lettres = lettresDuNom(nom);
+const delais = delaisApparition(lettres.length);
 ---
 
 <header class="en-tete">
   <p class="surnom">{surnom}</p>
-  <h1 class="nom">{nom}</h1>
+  {/* Les lettres sont cachées aux lecteurs d'écran : l'aria-label du h1 annonce le nom d'un bloc. */}
+  <h1
+    class="nom"
+    aria-label={nom}
+    style={`--duree-lettre: ${DUREE_APPARITION_LETTRE_S}s; --debut-lueur: ${DUREE_MAX_NOM_S}s`}
+  >
+    {lettres.map((lettre, i) => (
+      <span class="lettre" aria-hidden="true" style={`--delai: ${delais[i]}s`}>{lettre}</span>
+    ))}
+  </h1>
   <p class="accroche">{accroche}</p>
 </header>
 
@@ -63,9 +80,56 @@ const { nom, surnom, accroche } = textesDuSite.enTete;
     margin: 0;
     font-size: var(--taille-geant);
     color: var(--couleur-texte);
+    white-space: nowrap;
     text-shadow:
       0 0 0.35em color-mix(in srgb, var(--couleur-rouge) 70%, transparent),
       0 0.04em 0 var(--couleur-rouge);
+  }
+
+  /* Par défaut (et avec « réduire les animations ») le nom est entier, sans mouvement.
+     Seul l'opacity et le text-shadow bougent : le nom ne change ni de place ni de taille. */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .lettre {
+      animation: lettre-apparait var(--duree-lettre) ease-out var(--delai) both;
+    }
+
+    /* La pulsation démarre quand la dernière lettre est apparue. */
+    .nom {
+      animation: lueur-respire 3.5s ease-in-out var(--debut-lueur) infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nom,
+    .lettre {
+      animation: none;
+    }
+  }
+
+  @keyframes lettre-apparait {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes lueur-respire {
+    /* Le cycle part de la lueur de base : pas de saut quand il démarre. */
+    0%,
+    100% {
+      text-shadow:
+        0 0 0.35em color-mix(in srgb, var(--couleur-rouge) 70%, transparent),
+        0 0.04em 0 var(--couleur-rouge);
+    }
+
+    50% {
+      text-shadow:
+        0 0 0.2em color-mix(in srgb, var(--couleur-rouge) 40%, transparent),
+        0 0.04em 0 var(--couleur-rouge);
+    }
   }
 
   .accroche {
