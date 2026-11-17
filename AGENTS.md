@@ -14,30 +14,16 @@ L'utilisateur n'est pas développeur. Pour toute question technique (stack, test
 
 ## Workflow
 
-### Niveau projet : la direction
+<!-- an-forge:workflow : section gérée par an-forge. Ne la modifie pas : /project-init la remet à jour. -->
+Ce projet suit an-forge. Le détail de chaque étape est dans les skills, pas ici.
 
-Pour une nouvelle idée ou une grosse évolution, lance `/project-launch`. Il enchaîne, dans une seule conversation :
-
-1. `grill-with-docs` : interroger l'idée jusqu'à ce qu'elle soit claire, en tenant `GLOSSARY.md` et les ADR à jour.
-2. `to-spec` : publier la spec comme issue.
-3. `to-tickets` : la découper en tickets `ready-for-agent`.
-
-### Une petite demande
-
-Pour un bug, une retouche ou un petit ajout, lance `/quick-ticket` : il écrit un seul ticket `ready-for-agent`, sans spec.
-
-### Niveau feature : la réalisation
-
-Pour construire un ticket `ready-for-agent`, lance `/build-ticket <numéro>` dans une session neuve. Il enchaîne, sans s'arrêter :
-
-1. **Isoler** : une branche et un worktree à part, depuis le dernier `main`.
-2. **Construire** : en TDD (`diagnosing-bugs` d'abord pour un bug), en suivant l'architecture existante.
-3. **Tester** : `scripts/checks.sh` doit passer. Rien n'avance tant qu'il échoue.
-4. **Relire** : des agents neufs relisent le diff : le ticket, les règles de ce fichier, puis les bugs, la sécurité et les données.
-5. **Résumer** : un brief d'une page, avec l'objectif, les changements et l'avant/après, dans `docs/briefs/`.
-6. **Livrer** : une pull request, que GitHub revérifie. Ne merge pas sans accord.
-
-Après le brief, l'utilisateur merge ou demande un changement : `/build-ticket <numéro>` reprend alors la même pull request.
+- Une nouvelle idée ou une grosse évolution : `/project-launch`.
+- Un bug, une retouche, un petit ajout : `/quick-ticket`.
+- Construire un ticket `ready-for-agent` : `/build-ticket <numéro>`, dans une session neuve.
+- Après le brief : l'utilisateur merge, ou demande un changement et `/build-ticket <numéro>` reprend la même pull request.
+- Voir où en est le projet : `/project-dashboard`.
+- Comment le projet est construit : `ARCHITECTURE.md` (vue d'ensemble, technologies, rôle de chaque dossier). Lis-le avant de ranger du code ; `/project-architecture` le tient à jour.
+<!-- /an-forge:workflow -->
 
 ## Checks
 
